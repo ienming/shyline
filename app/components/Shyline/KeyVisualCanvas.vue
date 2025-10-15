@@ -129,13 +129,18 @@
 				</ClientOnly>
 				<ClientOnly>
 					<div class="recommend-colors">
-						<div
-							v-for="c of colorRecommends"
-							:key="c.id"
-							class="recommend-color-combination"
-							:data-start="rgbToString(c.start)"
-							:data-end="rgbToString(c.end)"
-							@click="updateColorCombination(c)" />
+						<div class="combinations">
+							<div
+								v-for="c of colorRecommends"
+								:key="c.id"
+								class="recommend-color-combination"
+								:data-start="rgbToString(c.start)"
+								:data-end="rgbToString(c.end)"
+								@click="updateColorCombination(c)" />
+						</div>
+						<span
+							class="random-btn"
+							@click="randomColor">Random</span>
 					</div>
 					<div class="color-container">
 						<ColorPicker v-model:color="colorStart" />
@@ -191,12 +196,16 @@ const colorRecommends = [
 		end: { r: 252, g: 164, b: 227 },
 	}, {
 		id: 1,
-		start: { r: 64, g: 222, b: 120 },
-		end: { r: 255, g: 161, b: 251 },
+		start: { r: 3, g: 255, b: 92 },
+		end: { r: 255, g: 102, b: 248 },
 	}, {
 		id: 2,
 		start: { r: 0, g: 81, b: 255 },
 		end: { r: 234, g: 255, b: 128 },
+	}, {
+		id: 3,
+		start: { r: 79, g: 190, b: 255 },
+		end: { r: 8, g: 39, b: 105 },
 	},
 ];
 
@@ -255,7 +264,7 @@ function handleVideoUpdate(file) {
 }
 
 function saveCanvas() {
-	const result = p5Instance.saveHighResImg(saveResolution.value);
+	p5Instance.saveHighResImg(saveResolution.value);
 }
 
 function updateColorCombination(c) {
@@ -265,6 +274,19 @@ function updateColorCombination(c) {
 
 function rgbToString(color) {
 	return `rgb(${color.r}, ${color.g}, ${color.b})`;
+}
+
+function randomColor() {
+	colorStart.value = {
+		r: Math.floor(Math.random() * 256),
+		g: Math.floor(Math.random() * 256),
+		b: Math.floor(Math.random() * 256),
+	};
+	colorEnd.value = {
+		r: Math.floor(Math.random() * 256),
+		g: Math.floor(Math.random() * 256),
+		b: Math.floor(Math.random() * 256),
+	};
 }
 
 onMounted(() => {
@@ -474,7 +496,9 @@ onMounted(() => {
 		position: fixed;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%, -50%) scale(0);
+		transform-origin: left top;
+		transform: translate(-220%, -90%) scale(0);
+		opacity: 0;
 		width: 320px;
 		max-height: 400px;
 		overflow-y: scroll;
@@ -485,9 +509,10 @@ onMounted(() => {
 		backdrop-filter: blur(8px);
 		color: #999;
 		z-index: 1;
-		transition: transform 0.3s;
+		transition: transform .5s, opacity .4s;
 		&.open {
 			transform: translate(-50%, -50%) scale(1);
+			opacity: 1;
 		}
 
 		.close {
@@ -526,7 +551,23 @@ onMounted(() => {
 
 		.recommend-colors {
 			display: flex;
-			gap: 8px;
+			align-items: center;
+			justify-content: space-between;
+
+			.combinations {
+				display: flex;
+				gap: 8px;
+			}
+
+			.random-btn {
+				cursor: pointer;
+				font-size: 12px;
+				color: #666;
+				transition: color 0.2s;
+				&:hover {
+					color: #999;
+				}
+			}
 
 			.recommend-color-combination {
 				--start-color: attr(data-start type(<color>));

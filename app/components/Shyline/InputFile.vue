@@ -5,7 +5,7 @@
 		<div class="upload-area">
 			<p class="title">{{ file ? fileName : 'Upload' }}</p>
 			<img
-				v-if="file"
+				v-if="thumbnail"
 				alt="Upload"
 				class="thumbnail"
 				:src="thumbnail" />
