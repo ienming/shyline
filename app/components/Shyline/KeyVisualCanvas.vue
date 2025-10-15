@@ -86,7 +86,8 @@
 					fieldLabel="samplingInterval"
 					:min="8"
 					:max="20"
-					:step="1" />
+					:step="1"
+					@update:modelValue="refreshBuffer" />
 				<InputSlider
 					v-model="maxThickness"
 					fieldName="maxThickness"
@@ -274,6 +275,7 @@ onMounted(() => {
 		const canvasW = parseFloat(getComputedStyle(canvasRef.value).width);
 		const canvasH = window.innerHeight;
 		const brightnessThreshold = 200;
+		let segments = [];
 
 		p.setup = () => {
 			p.createCanvas(canvasW, canvasH);
@@ -296,8 +298,10 @@ onMounted(() => {
 
 		// 刷新 buffer (source graphic) → 畫文字或圖片
 		p.refreshSourceBuffer = (buffer = pg, resolution = 1) => {
+			const step = sampling.value * resolution;
 			const textSizeScaled = textSize.value * resolution;
 			const mediaScaled = mediaScale.value * resolution;
+			segments = [];
 			buffer.background(255);
 
 			if (mode.value === MODE.TEXT) {
@@ -330,6 +334,28 @@ onMounted(() => {
 			}
 
 			buffer.loadPixels();
+
+			// Scan all pixels in the buffer
+			for (let y = 0; y < buffer.height; y += step) {
+				let runStart = null;
+
+				for (let x = 0; x < buffer.width; x += 4) {
+					const i = (x + y * buffer.width) * 4;
+					const bright = (buffer.pixels[i] + buffer.pixels[i + 1] + buffer.pixels[i + 2]) / 3;
+					const isInside = bright < brightnessThreshold;
+
+					if (isInside && runStart === null) {
+						runStart = x;
+					} else if (!isInside && runStart !== null) {
+						segments.push({
+							x: runStart,
+							y,
+							len: x - runStart,
+						});
+						runStart = null;
+					}
+				}
+			}
 		}
 
 		function drawWave(target, resolution = 1) {
@@ -356,44 +382,21 @@ onMounted(() => {
 			}
 		}
 
-		function drawFromSource(source = pg, target = p, resolution = 1) {
-			const step = sampling.value * resolution;
+		function drawFromSource(target = p, resolution = 1) {
 			const maxThick = maxThickness.value * resolution;
 			const ctx = target;
 
 			ctx.noStroke();
-			for (let y = 0; y < source.height; y += step) {
-				let isInRun = false;
-				let runStart = 0;
-				const color = getGradientColor(ctx, y);
+			for (let i = 0; i < segments.length; i++) {
+				const seg = segments[i];
+				const color = getGradientColor(ctx, seg.y);
 				ctx.fill(color);
-
-				for (let x = 0; x < source.width; x += 4) {
-					const i = (x + y * source.width) * 4;
-					const r = source.pixels[i];
-					const g = source.pixels[i + 1];
-					const b = source.pixels[i + 2];
-					const bright = (r + g + b) / 3;
-
-					const isInside = bright < brightnessThreshold;
-
-					if (isInside && !isInRun) {
-						isInRun = true;
-						runStart = x;
-					} else if (!isInside && isInRun) {
-						isInRun = false;
-						drawFatLine(ctx, runStart, y, x - runStart, maxThick, 0.2, resolution);
-					}
-				}
-
-				if (isInRun) {
-					drawFatLine(ctx, runStart, y, source.width - runStart, maxThick, 0.2, resolution);
-				}
+				drawFatLine(ctx, seg.x, seg.y, seg.len, maxThick, 0.2, resolution);
 			}
 		}
 
 		// 畫胖線
-		function drawFatLine(ctx,x0, yBase, len, maxH, chamfer = 0.2, resolution = 1) {
+		function drawFatLine(ctx, x0, yBase, len, maxH, chamfer = 0.2, resolution = 1) {
 			if (len <= 0) return;
 
 			ctx.beginShape();
