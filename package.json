@@ -1,0 +1,25 @@
+{
+  "name": "nuxt-app",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@vueuse/core": "^13.9.0",
+    "@vueuse/nuxt": "^13.9.0",
+    "input-range-scss": "^2.0.1",
+    "nuxt": "^4.1.2",
+    "p5": "^2.0.5",
+    "vue": "^3.5.22",
+    "vue-color": "^3.3.2",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "sass-embedded": "^1.93.2"
+  }
+}
