@@ -57,7 +57,10 @@ function change(event: Event) {
 			const ctx = canvas.getContext('2d');
 			if (ctx) {
 				ctx.drawImage(videoPlayer, 0, 0, canvas.width, canvas.height);
-				thumbnail.value = canvas.toDataURL('image/jpeg');
+				canvas.toBlob(blob => {
+					if (!blob) return;
+					thumbnail.value = URL.createObjectURL(blob);
+				})
 			}
 			URL.revokeObjectURL(videoPlayer.src);
 		});
