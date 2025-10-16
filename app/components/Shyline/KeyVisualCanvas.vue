@@ -298,6 +298,7 @@ onMounted(() => {
 		const canvasH = window.innerHeight;
 		const brightnessThreshold = 200;
 		let segments = [];
+		let saveSegments = [];
 
 		p.setup = () => {
 			p.createCanvas(canvasW, canvasH);
@@ -319,11 +320,20 @@ onMounted(() => {
 		}
 
 		// 刷新 buffer (source graphic) → 畫文字或圖片
-		p.refreshSourceBuffer = (buffer = pg, resolution = 1) => {
+		p.refreshSourceBuffer = (buffer = pg, resolution = 1, isSave = false) => {
 			const step = sampling.value * resolution;
 			const textSizeScaled = textSize.value * resolution;
 			const mediaScaled = mediaScale.value * resolution;
-			segments = [];
+
+			let parts;
+			if (!isSave) {
+				segments = [];
+				parts = segments;
+			} else {
+				saveSegments = [];
+				parts = saveSegments;
+			}
+
 			buffer.background(255);
 
 			if (mode.value === MODE.TEXT) {
@@ -369,7 +379,7 @@ onMounted(() => {
 					if (isInside && runStart === null) {
 						runStart = x;
 					} else if (!isInside && runStart !== null) {
-						segments.push({
+						parts.push({
 							x: runStart,
 							y,
 							len: x - runStart,
@@ -404,13 +414,14 @@ onMounted(() => {
 			}
 		}
 
-		function drawFromSource(target = p, resolution = 1) {
+		function drawFromSource(target = p, resolution = 1, isSave = false) {
 			const maxThick = maxThickness.value * resolution;
 			const ctx = target;
+			const parts = isSave ? saveSegments : segments;
 
 			ctx.noStroke();
-			for (let i = 0; i < segments.length; i++) {
-				const seg = segments[i];
+			for (let i = 0; i < parts.length; i++) {
+				const seg = parts[i];
 				const color = getGradientColor(ctx, seg.y);
 				ctx.fill(color);
 				drawFatLine(ctx, seg.x, seg.y, seg.len, maxThick, 0.2, resolution);
@@ -473,12 +484,12 @@ onMounted(() => {
 			const highResBuffer = p.createGraphics(canvasW * resolution, canvasH * resolution);
 			highResCanvas.pixelDensity(1);
 			highResBuffer.pixelDensity(1);
-			p.refreshSourceBuffer(highResBuffer, resolution);
+			p.refreshSourceBuffer(highResBuffer, resolution, true);
 
 			if (showWave.value) {
 				drawWave(highResCanvas, resolution);
 			}
-			drawFromSource(highResBuffer, highResCanvas, resolution);
+			drawFromSource(highResCanvas, resolution, true);
 			
 			p.save(highResCanvas, 'shyline.jpg');
 		}
