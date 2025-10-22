@@ -300,7 +300,8 @@ onMounted(() => {
 		let segments = [];
 		let saveSegments = [];
 
-		p.setup = () => {
+		p.setup = async () => {
+			font = await p.loadFont('/font/fonnts.com-Degular_Variable.otf');
 			p.createCanvas(canvasW, canvasH);
 			p.pixelDensity(1);
 			pg = p.createGraphics(canvasW, canvasH);
@@ -405,7 +406,7 @@ onMounted(() => {
 				for (let x = 0; x < w; x+= 10) {
 					const wX = p.sin(p.map(x, 0, w, 0, p.PI)) * 10;
 					const weight = wY * wX * 0.5;
-					ctx.strokeWeight(weight * step / (20000 / canvasW / resolution));
+					ctx.strokeWeight(weight * step * resolution / 10);
 
 					const waveY = y + waveOffset(x, y, p.frameCount, resolution);
 					ctx.vertex(x, waveY);
@@ -507,8 +508,8 @@ onMounted(() => {
 		position: fixed;
 		top: 50%;
 		left: 50%;
-		transform-origin: left top;
-		transform: translate(-220%, -90%) scale(0);
+		transform-origin: center;
+		transform: translate(-50%, 30%) scale(0);
 		opacity: 0;
 		width: 320px;
 		max-height: 400px;
@@ -612,8 +613,9 @@ onMounted(() => {
 
 	.toggle-ui-btn {
 		position: fixed;
-		top: 20px;
-		left: 20px;
+		bottom: 24px;
+		left: 50%;
+		transform: translateX(-50%);
 		z-index: 20;
 		background: #222;
 		color: #fff;

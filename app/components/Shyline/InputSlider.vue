@@ -70,11 +70,12 @@ function onInput(event: Event) {
 <style lang="scss" scoped>
 @use 'input-range-scss' with (
 	$track-color: transparent,
-	$track-height: 6px,
+	$track-height: 4px,
 	$track-border-width: 0px,
 	$thumb-color: #999,
-	$thumb-height: 14px,
-	$thumb-width: 14px,
+	$thumb-height: 18px,
+	$thumb-width: 8px,
+	$thumb-radius: 4px,
 	$thumb-border-width: 0px,
 );
 
