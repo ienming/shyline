@@ -148,6 +148,11 @@
 					</div>
 				</ClientOnly>
 			</div>
+			<div class="recording-container">
+				<Button @click="startRecord">
+					{{ isRecording ? 'Recording...' : 'Start Record' }}
+				</Button>
+			</div>
 			<div class="save-container">
 				<Button
 					type="group"
@@ -158,7 +163,7 @@
 					v-model="saveResolution"
 					fieldName="resolution"
 					type="group"
-					:options="Array.from({length: maxResolution}, (_, i) => ({label: `${i + 1}x`, value: i + 1 }))" />
+					:options="Array.from({ length: maxResolution }, (_, i) => ({ label: `${i + 1}x`, value: i + 1 }))" />
 			</div>
 		</div>
 	</div>
@@ -175,7 +180,8 @@ import InputFile from './InputFile.vue';
 import InputSelect from './InputSelect.vue';
 
 const { $p5 } = useNuxtApp();
-const canvasRef = useTemplateRef('canvasContainer');
+const canvasContainerRef = useTemplateRef('canvasContainer');
+let canvasEl;
 let p5Instance;
 const MODE = {
 	TEXT: 'TEXT',
@@ -188,6 +194,13 @@ const inputText = ref(`This is\nShyline 👓`);
 const img = ref(null);
 const video = ref(null);
 const isCanvasSaving = ref(false);
+let recorder;
+const videoChunks = [];
+const videoConfig = {
+	mimeType: 'video/webm;codecs=av1',
+	videoBitsPerSecond: 10_000_000,
+};
+const frameRate = 30;
 
 const colorRecommends = [
 	{
@@ -211,6 +224,7 @@ const colorRecommends = [
 
 // UI
 const isUIShow = ref(false);
+const isRecording = ref(false);
 const bgColor = ref({ r: 0, g: 0, b: 0 });
 const mediaScale = ref(1);
 const textSize = ref(200);
@@ -263,6 +277,46 @@ function handleVideoUpdate(file) {
 	});
 }
 
+function startRecord() {
+	if (isRecording.value) {
+		isRecording.value = false;
+		recorder.stop();
+		return;
+	}
+
+	videoChunks.length = 0;
+	let stream = canvasEl.captureStream(frameRate);
+	recorder = new MediaRecorder(stream, videoConfig);
+
+	recorder.ondataavailable = e => {
+		if (e.data.size) {
+			videoChunks.push(e.data);
+		}
+	};
+	recorder.onstop = saveVideo;
+	recorder.start(1000);
+
+	isRecording.value = true;
+}
+
+function saveVideo() {
+	const blob = new Blob(videoChunks,
+		{
+			'type': 'video/webm',
+		},
+	);
+
+	// Download the video 
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement('a');
+	document.body.appendChild(a);
+	a.style = 'display: none';
+	a.href = url;
+	a.download = 'newVid.webm';
+	a.click();
+	window.URL.revokeObjectURL(url);
+}
+
 function saveCanvas() {
 	p5Instance.saveHighResImg(saveResolution.value);
 }
@@ -294,7 +348,7 @@ onMounted(() => {
 		let pg;
 		let txtLines = [];
 
-		const canvasW = parseFloat(getComputedStyle(canvasRef.value).width);
+		const canvasW = parseFloat(getComputedStyle(canvasContainerRef.value).width);
 		const canvasH = window.innerHeight;
 		const brightnessThreshold = 200;
 		let segments = [];
@@ -302,7 +356,8 @@ onMounted(() => {
 
 		p.setup = async () => {
 			font = await p.loadFont('/font/fonnts.com-Degular_Variable.otf');
-			p.createCanvas(canvasW, canvasH);
+			p.frameRate(frameRate);
+			canvasEl = p.createCanvas(canvasW, canvasH).canvas;
 			p.pixelDensity(1);
 			pg = p.createGraphics(canvasW, canvasH);
 			pg.pixelDensity(1);
@@ -339,7 +394,7 @@ onMounted(() => {
 
 			if (mode.value === MODE.TEXT) {
 				txtLines = inputText.value.split("\n");
-				const lineHeight = textSizeScaled * inputLineHeight.value ;
+				const lineHeight = textSizeScaled * inputLineHeight.value;
 				const totalHeight = txtLines.length * lineHeight;
 				const startY = (buffer.height - totalHeight) / 2 + textSizeScaled * 0.7;
 
@@ -395,15 +450,15 @@ onMounted(() => {
 			const ctx = target ? target : p;
 			const [h, w] = target ? [target.height, target.width] : [canvasH, canvasW];
 			const step = sampling.value * resolution;
-			
+
 			ctx.noFill();
 			for (let y = 0; y < h; y += step) {
 				const wY = p.sin(p.map(y, 0, h, 0, p.PI)) * 10;
 				const color = getGradientColor(ctx, y);
 				ctx.stroke(color);
-				
+
 				ctx.beginShape();
-				for (let x = 0; x < w; x+= 10) {
+				for (let x = 0; x < w; x += 10) {
 					const wX = p.sin(p.map(x, 0, w, 0, p.PI)) * 10;
 					const weight = wY * wX * 0.5;
 					ctx.strokeWeight(weight * step * resolution / 10);
@@ -491,10 +546,10 @@ onMounted(() => {
 				drawWave(highResCanvas, resolution);
 			}
 			drawFromSource(highResCanvas, resolution, true);
-			
+
 			p.save(highResCanvas, 'shyline.jpg');
 		}
-	}, canvasRef.value);
+	}, canvasContainerRef.value);
 })
 </script>
 
@@ -522,6 +577,7 @@ onMounted(() => {
 		color: #999;
 		z-index: 1;
 		transition: transform .5s, opacity .4s;
+
 		&.open {
 			transform: translate(-50%, -50%) scale(1);
 			opacity: 1;
@@ -541,6 +597,7 @@ onMounted(() => {
 			font-size: 12px;
 			text-align: right;
 			transition: color .3s ease;
+
 			&:hover {
 				color: white;
 			}
@@ -576,6 +633,7 @@ onMounted(() => {
 				font-size: 12px;
 				color: #666;
 				transition: color 0.2s;
+
 				&:hover {
 					color: #999;
 				}
@@ -624,6 +682,7 @@ onMounted(() => {
 		padding: 8px 12px;
 		cursor: pointer;
 		transition: background 0.2s;
+
 		&:hover {
 			background: #444;
 		}
@@ -632,6 +691,7 @@ onMounted(() => {
 	.canvas-container {
 		width: 100vw;
 		height: 100vh;
+
 		canvas {
 			width: 100%;
 			height: 100vh;
