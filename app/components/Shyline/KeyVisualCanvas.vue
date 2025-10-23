@@ -149,8 +149,12 @@
 				</ClientOnly>
 			</div>
 			<div class="recording-container">
-				<Button @click="startRecord">
-					{{ isRecording ? 'Recording...' : 'Start Record' }}
+				<Button
+					class="record-btn"
+					:class="{'recording': isRecording}"
+					@click="startRecord">
+					<span>{{ isRecording ? 'Recording...' : 'Start Record' }}</span>
+					<div class="record-icon" />
 				</Button>
 			</div>
 			<div class="save-container">
@@ -205,18 +209,26 @@ const frameRate = 30;
 const colorRecommends = [
 	{
 		id: 0,
-		start: { r: 245, g: 69, b: 0 },
-		end: { r: 252, g: 164, b: 227 },
-	}, {
+		start: { r: 126, g: 189, b: 120 },
+		end: { r: 226, g: 22, b: 12 },
+	},
+	{
 		id: 1,
-		start: { r: 3, g: 255, b: 92 },
-		end: { r: 255, g: 102, b: 248 },
-	}, {
+		start: { r: 245, g: 69, b: 0 },
+		end: { r: 255, g: 110, b: 215 },
+	},
+	{
 		id: 2,
+		start: { r: 3, g: 255, b: 92 },
+		end: { r: 255, g: 43, b: 223 },
+	},
+	{
+		id: 3,
 		start: { r: 0, g: 81, b: 255 },
 		end: { r: 234, g: 255, b: 128 },
-	}, {
-		id: 3,
+	},
+	{
+		id: 4,
 		start: { r: 79, g: 190, b: 255 },
 		end: { r: 8, g: 39, b: 105 },
 	},
@@ -659,6 +671,48 @@ onMounted(() => {
 			flex-direction: column;
 			gap: 8px;
 			margin: 8px 0;
+		}
+
+		.recording-container {
+			margin-top: 12px;
+
+			:deep(.record-btn) {
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 8px;
+	
+				.record-icon {
+					--color-wait-for-record: #530202;
+					--color-recording: #c90000;
+					width: 10px;
+					height: 10px;
+					border-radius: 50%;
+					transform: scale(0);
+					transform-origin: center;
+				}
+
+				&.recording {
+					.record-icon {
+						transform: scale(1);
+						animation-name: recording;
+						animation-iteration-count: infinite;
+						animation-duration: 500ms;
+						animation-direction: alternate;
+						animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+
+						@keyframes recording {
+							from {
+								background-color: var(--color-wait-for-record);
+							}
+							to {
+								background-color: var(--color-recording);
+							}
+						}
+					}
+				}
+			}
 		}
 
 		.save-container {
