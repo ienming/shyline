@@ -459,9 +459,8 @@ onMounted(() => {
 
 				ctx.beginShape();
 				for (let x = 0; x < w; x += 10) {
-					const wX = p.sin(p.map(x, 0, w, 0, p.PI)) * 10;
-					const weight = wY * wX * 0.5;
-					ctx.strokeWeight(weight * step * resolution / 10);
+					const weight = wY * 0.5;
+					ctx.strokeWeight(weight / 5);
 
 					const waveY = y + waveOffset(x, y, p.frameCount, resolution);
 					ctx.vertex(x, waveY);
@@ -485,7 +484,7 @@ onMounted(() => {
 		}
 
 		// 畫胖線
-		function drawFatLine(ctx, x0, yBase, len, maxH, chamfer = 0.2, resolution = 1) {
+		function drawFatLine(ctx, x0, yBase, len, maxH, chamfer = 1, resolution = 1) {
 			if (len <= 0) return;
 
 			ctx.beginShape();
