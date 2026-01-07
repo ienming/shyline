@@ -362,6 +362,9 @@ onClickOutside(uiContainerRef, () => {
 
 onMounted(() => {
 	const { $p5 } = useNuxtApp();
+	const config = useRuntimeConfig();
+	const baseURL = config.app.baseURL;
+
 	p5Instance = new $p5(p => {
 		let pg;
 		let txtLines = [];
@@ -373,7 +376,7 @@ onMounted(() => {
 		let saveSegments = [];
 
 		p.setup = async () => {
-			font = await p.loadFont('/font/fonnts.com-Degular_Variable.otf');
+			font = await p.loadFont(`${baseURL}font/fonnts.com-Degular_Variable.otf`);
 			p.frameRate(frameRate);
 			canvasEl = p.createCanvas(canvasW, canvasH).canvas;
 			p.pixelDensity(1);
