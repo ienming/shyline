@@ -9,6 +9,7 @@
 			{{ isUIShow ? 'Close' : 'Open' }} UI
 		</button>
 		<div
+			ref="uiContainer"
 			class="ui-container"
 			:class="{ open: isUIShow }">
 			<div
@@ -185,6 +186,7 @@ import InputSelect from './InputSelect.vue';
 
 const { $p5 } = useNuxtApp();
 const canvasContainerRef = useTemplateRef('canvasContainer');
+const uiContainerRef = useTemplateRef('uiContainer');
 let canvasEl;
 let p5Instance;
 const MODE = {
@@ -354,6 +356,10 @@ function randomColor() {
 		b: Math.floor(Math.random() * 256),
 	};
 }
+
+onClickOutside(uiContainerRef, () => {
+	isUIShow.value = false;
+});
 
 onMounted(() => {
 	p5Instance = new $p5(p => {
