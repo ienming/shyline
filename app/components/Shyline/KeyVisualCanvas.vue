@@ -184,7 +184,6 @@ import InputTextarea from './InputTextarea.vue';
 import InputFile from './InputFile.vue';
 import InputSelect from './InputSelect.vue';
 
-const { $p5 } = useNuxtApp();
 const canvasContainerRef = useTemplateRef('canvasContainer');
 const uiContainerRef = useTemplateRef('uiContainer');
 let canvasEl;
@@ -362,6 +361,7 @@ onClickOutside(uiContainerRef, () => {
 });
 
 onMounted(() => {
+	const { $p5 } = useNuxtApp();
 	p5Instance = new $p5(p => {
 		let pg;
 		let txtLines = [];

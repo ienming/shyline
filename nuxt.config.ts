@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
   ssr: false,
   app: {
-    baseURL: 'shyline',
+    baseURL: '/shyline/',
   },
   css: [
     'vue-color/style.css',
