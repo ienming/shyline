@@ -3,172 +3,168 @@
 		<div
 			ref="canvasContainer"
 			class="canvas-container" />
-		<button
-			class="toggle-ui-btn"
-			@click="isUIShow = !isUIShow">
-			{{ isUIShow ? 'Close' : 'Open' }} UI
-		</button>
 		<div
 			ref="uiContainer"
-			class="ui-container"
-			:class="{ open: isUIShow }">
+			class="ui-container">
 			<div
-				class="close"
-				@click="isUIShow = false">
-				<span>CLOSE</span>
+				class="toggle-ui-btn"
+				@click="isUIShow = !isUIShow">
+				<span>{{ isUIShow ? 'Hide UI' : 'Open UI' }}</span>
 			</div>
-			<div class="controller-container">
-				<div class="mode-container">
-					<InputRadio
-						v-model="mode"
-						:fieldName="MODE.TEXT"
-						fieldLabel="Text"
-						:value="MODE.TEXT"
-						@change="clearVideo(); refreshBuffer();" />
-					<InputRadio
-						v-model="mode"
-						:fieldName="MODE.IMAGE"
-						fieldLabel="Image"
-						:value="MODE.IMAGE"
-						@change="clearVideo(); refreshBuffer();" />
-					<InputRadio
-						v-model="mode"
-						:fieldName="MODE.VIDEO"
-						fieldLabel="Video"
-						:value="MODE.VIDEO"
-						@change="clearVideo(); refreshBuffer();" />
-				</div>
-				<div class="input-container">
-					<InputTextarea
+			<div v-show="isUIShow">
+				<div class="controller-container">
+					<div class="mode-container">
+						<InputRadio
+							v-model="mode"
+							:fieldName="MODE.TEXT"
+							fieldLabel="Text"
+							:value="MODE.TEXT"
+							@change="clearVideo(); refreshBuffer();" />
+						<InputRadio
+							v-model="mode"
+							:fieldName="MODE.IMAGE"
+							fieldLabel="Image"
+							:value="MODE.IMAGE"
+							@change="clearVideo(); refreshBuffer();" />
+						<InputRadio
+							v-model="mode"
+							:fieldName="MODE.VIDEO"
+							fieldLabel="Video"
+							:value="MODE.VIDEO"
+							@change="clearVideo(); refreshBuffer();" />
+					</div>
+					<div class="input-container">
+						<InputTextarea
+							v-if="mode === MODE.TEXT"
+							v-model="inputText"
+							fieldName="text"
+							:rows="4"
+							@update:modelValue="refreshBuffer" />
+						<InputFile
+							v-else-if="mode === MODE.IMAGE"
+							fieldName="image"
+							accept="image/png, image/jpeg, image/webp, image/avif"
+							@update:file="handleImgUpdate" />
+						<InputFile
+							v-else-if="mode === MODE.VIDEO"
+							fieldName="video"
+							accpet="video/mp4, video/webm"
+							@update:file="handleVideoUpdate" />
+					</div>
+					<InputSlider
 						v-if="mode === MODE.TEXT"
-						v-model="inputText"
-						fieldName="text"
-						:rows="4"
+						v-model="textSize"
+						fieldName="textSize"
+						:min="80"
+						:max="400"
+						:step="1"
 						@update:modelValue="refreshBuffer" />
-					<InputFile
-						v-else-if="mode === MODE.IMAGE"
-						fieldName="image"
-						accept="image/png, image/jpeg, image/webp, image/avif"
-						@update:file="handleImgUpdate" />
-					<InputFile
-						v-else-if="mode === MODE.VIDEO"
-						fieldName="video"
-						accpet="video/mp4, video/webm"
-						@update:file="handleVideoUpdate" />
-				</div>
-				<InputSlider
-					v-if="mode === MODE.TEXT"
-					v-model="textSize"
-					fieldName="textSize"
-					:min="80"
-					:max="400"
-					:step="1"
-					@update:modelValue="refreshBuffer" />
-				<InputSlider
-					v-if="mode === MODE.TEXT"
-					v-model="inputLineHeight"
-					fieldName="lineHeight"
-					:min="0"
-					:max="2"
-					:step="0.1"
-					@update:modelValue="refreshBuffer" />
-				<InputSlider
-					v-if="mode === MODE.IMAGE || mode === MODE.VIDEO"
-					v-model="mediaScale"
-					fieldName="mediaScale"
-					fieldLabel="imageSize"
-					:min="0.1"
-					:max="2"
-					:step="0.1"
-					@update:modelValue="refreshBuffer" />
-				<InputSlider
-					v-model="sampling"
-					fieldName="sampling"
-					fieldLabel="samplingInterval"
-					:min="8"
-					:max="20"
-					:step="1"
-					@update:modelValue="refreshBuffer" />
-				<InputSlider
-					v-model="maxThickness"
-					fieldName="maxThickness"
-					:min="3"
-					:max="18"
-					:step="1" />
-				<InputSlider
-					v-model="amp"
-					fieldName="amp"
-					:min="0"
-					:max="40"
-					:step="1" />
-				<InputSlider
-					v-model="freq"
-					fieldName="freq"
-					:min="0"
-					:max="0.05"
-					:step="0.01" />
-				<InputSlider
-					v-model="speed"
-					fieldName="speed"
-					:min="0.01"
-					:max="0.1"
-					:step="0.01" />
-				<InputSlider
-					v-model="waveAngle"
-					fieldName="waveAngle"
-					:min="0"
-					:max="360"
-					:step="1" />
-				<InputCheckbox
-					v-model="showWave"
-					fieldName="showWave" />
-				<ClientOnly>
-					<div class="bg-color-container">
-						bgColor
-						<ColorPicker v-model:color="bgColor" />
-					</div>
-				</ClientOnly>
-				<ClientOnly>
-					<div class="recommend-colors">
-						<div class="combinations">
-							<div
-								v-for="c of colorRecommends"
-								:key="c.id"
-								class="recommend-color-combination"
-								:data-start="rgbToString(c.start)"
-								:data-end="rgbToString(c.end)"
-								@click="updateColorCombination(c)" />
+					<InputSlider
+						v-if="mode === MODE.TEXT"
+						v-model="inputLineHeight"
+						fieldName="lineHeight"
+						:min="0"
+						:max="2"
+						:step="0.1"
+						@update:modelValue="refreshBuffer" />
+					<InputSlider
+						v-if="mode === MODE.IMAGE || mode === MODE.VIDEO"
+						v-model="mediaScale"
+						fieldName="mediaScale"
+						fieldLabel="imageSize"
+						:min="0.1"
+						:max="2"
+						:step="0.1"
+						@update:modelValue="refreshBuffer" />
+					<InputSlider
+						v-model="sampling"
+						fieldName="sampling"
+						fieldLabel="samplingInterval"
+						:min="8"
+						:max="20"
+						:step="1"
+						@update:modelValue="refreshBuffer" />
+					<InputSlider
+						v-model="maxThickness"
+						fieldName="maxThickness"
+						:min="3"
+						:max="18"
+						:step="1" />
+					<InputSlider
+						v-model="amp"
+						fieldName="amp"
+						:min="0"
+						:max="40"
+						:step="1" />
+					<InputSlider
+						v-model="freq"
+						fieldName="freq"
+						:min="0"
+						:max="0.05"
+						:step="0.01" />
+					<InputSlider
+						v-model="speed"
+						fieldName="speed"
+						:min="0.01"
+						:max="0.1"
+						:step="0.01" />
+					<InputSlider
+						v-model="waveAngle"
+						fieldName="waveAngle"
+						:min="0"
+						:max="360"
+						:step="1" />
+					<InputCheckbox
+						v-model="showWave"
+						fieldName="showWave" />
+					<ClientOnly>
+						<div class="bg-color-container">
+							bgColor
+							<ColorPicker v-model:color="bgColor" />
 						</div>
-						<span
-							class="random-btn"
-							@click="randomColor">Random</span>
-					</div>
-					<div class="color-container">
-						<ColorPicker v-model:color="colorStart" />
-						<ColorPicker v-model:color="colorEnd" />
-					</div>
-				</ClientOnly>
-			</div>
-			<div class="recording-container">
-				<Button
-					class="record-btn"
-					:class="{'recording': isRecording}"
-					@click="startRecord">
-					<span>{{ isRecording ? 'Recording...' : 'Start Record' }}</span>
-					<div class="record-icon" />
-				</Button>
-			</div>
-			<div class="save-container">
-				<Button
-					type="group"
-					@click="saveCanvas">
-					{{ isCanvasSaving ? 'Saving...' : 'Save Image' }}
-				</Button>
-				<InputSelect
-					v-model="saveResolution"
-					fieldName="resolution"
-					type="group"
-					:options="Array.from({ length: maxResolution }, (_, i) => ({ label: `${i + 1}x`, value: i + 1 }))" />
+					</ClientOnly>
+					<ClientOnly>
+						<div class="recommend-colors">
+							<div class="combinations">
+								<div
+									v-for="c of colorRecommends"
+									:key="c.id"
+									class="recommend-color-combination"
+									:data-start="rgbToString(c.start)"
+									:data-end="rgbToString(c.end)"
+									@click="updateColorCombination(c)" />
+							</div>
+							<span
+								class="random-btn"
+								@click="randomColor">Random</span>
+						</div>
+						<div class="color-container">
+							<ColorPicker v-model:color="colorStart" />
+							<ColorPicker v-model:color="colorEnd" />
+						</div>
+					</ClientOnly>
+				</div>
+				<div class="recording-container">
+					<Button
+						class="record-btn"
+						:class="{'recording': isRecording}"
+						@click="startRecord">
+						<span>{{ isRecording ? 'Recording...' : 'Start Record' }}</span>
+						<div class="record-icon" />
+					</Button>
+				</div>
+				<div class="save-container">
+					<Button
+						type="group"
+						@click="saveCanvas">
+						{{ isCanvasSaving ? 'Saving...' : 'Save Image' }}
+					</Button>
+					<InputSelect
+						v-model="saveResolution"
+						fieldName="resolution"
+						type="group"
+						:options="Array.from({ length: maxResolution }, (_, i) => ({ label: `${i + 1}x`, value: i + 1 }))" />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -236,7 +232,7 @@ const colorRecommends = [
 ];
 
 // UI
-const isUIShow = ref(false);
+const isUIShow = ref(true);
 const isRecording = ref(false);
 const bgColor = ref({ r: 0, g: 0, b: 0 });
 const mediaScale = ref(1);
@@ -579,43 +575,31 @@ onMounted(() => {
 	grid-template-columns: 1fr;
 
 	.ui-container {
-		--ui-conatiner-padding: 20px;
+		--ui-conatiner-padding: 14px;
 		position: fixed;
-		top: 50%;
-		left: 50%;
-		transform-origin: center;
-		transform: translate(-50%, 30%) scale(0);
-		opacity: 0;
+		top: 24px;
+		left: 24px;
 		width: 320px;
-		max-height: 400px;
+		max-height: max(400px, 90vh);
 		overflow-y: scroll;
-		padding: var(--ui-conatiner-padding);
 		border-radius: 8px;
 		border: 1px solid #333;
 		background-color: rgba(0, 0, 0, 0.75);
 		backdrop-filter: blur(8px);
 		color: #999;
 		z-index: 1;
-		transition: transform .5s, opacity .4s;
-
-		&.open {
-			transform: translate(-50%, -50%) scale(1);
-			opacity: 1;
+		
+		> div {
+			padding: var(--ui-conatiner-padding);
 		}
 
-		.close {
+		.toggle-ui-btn {
 			position: sticky;
-			top: calc(-1 * var(--ui-conatiner-padding));
+			top: 0;
 			background-color: rgba(0, 0, 0, 1);
 			cursor: pointer;
-			padding: 16px var(--ui-conatiner-padding) 8px 0;
-			margin-top: calc(-1 * var(--ui-conatiner-padding));
-			margin-left: calc(-1 * var(--ui-conatiner-padding));
-			margin-bottom: 12px;
-			margin-right: calc(-1 * var(--ui-conatiner-padding));
 			z-index: 1;
 			font-size: 12px;
-			text-align: right;
 			transition: color .3s ease;
 
 			&:hover {
@@ -728,25 +712,6 @@ onMounted(() => {
 			margin-top: 12px;
 			display: grid;
 			grid-template-columns: 3fr 1fr;
-		}
-	}
-
-	.toggle-ui-btn {
-		position: fixed;
-		bottom: 24px;
-		left: 50%;
-		transform: translateX(-50%);
-		z-index: 20;
-		background: #222;
-		color: #fff;
-		border: none;
-		border-radius: 4px;
-		padding: 8px 12px;
-		cursor: pointer;
-		transition: background 0.2s;
-
-		&:hover {
-			background: #444;
 		}
 	}
 
