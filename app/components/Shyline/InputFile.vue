@@ -3,12 +3,12 @@
 		class="input-file"
 		:for="fieldName">
 		<div class="upload-area">
-			<p class="title">{{ file ? fileName : 'Upload' }}</p>
 			<img
 				v-if="thumbnail"
 				alt="Upload"
 				class="thumbnail"
 				:src="thumbnail" />
+			<p class="title">{{ file ? fileName : 'Upload' }}</p>
 		</div>
 		<input
 			hidden
@@ -35,7 +35,12 @@ const emit = defineEmits(['update:file']);
 const file = ref<File | null>(null);
 const thumbnail = ref<string>('');
 
-const fileName = computed(() => file.value?.name || '');
+const fileName = computed(() => {
+	if (!file.value?.name) return '';
+	const fileExtension = file.value.name.split('.').pop()?.toLocaleLowerCase() || '';
+	const fileName = file.value.name.slice(0, -fileExtension.length - 1).slice(0, 16) + '...';
+	return `${fileName}${fileExtension}` || '';
+});
 
 function change(event: Event) {
 	const target = event.target as HTMLInputElement;
