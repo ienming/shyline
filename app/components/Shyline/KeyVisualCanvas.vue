@@ -3,6 +3,9 @@
 		<div
 			ref="canvasContainer"
 			class="canvas-container" />
+		<div class="logo">
+			<Logo :color="rgbToString(colorStart)" />
+		</div>
 		<div
 			ref="uiContainer"
 			class="ui-container">
@@ -179,6 +182,7 @@ import InputSlider from './InputSlider.vue';
 import InputTextarea from './InputTextarea.vue';
 import InputFile from './InputFile.vue';
 import InputSelect from './InputSelect.vue';
+import Logo from './Logo.vue';
 
 const canvasContainerRef = useTemplateRef('canvasContainer');
 const uiContainerRef = useTemplateRef('uiContainer');
@@ -571,14 +575,22 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .shyline {
-	display: grid;
-	grid-template-columns: 1fr;
+	--padding-y: 24px;
+	--padding-x: 24px;
+
+	.logo {
+		position: fixed;
+		top: var(--padding-y);
+		right: var(--padding-x);
+		z-index: 1;
+		width: 180px;
+	}
 
 	.ui-container {
 		--ui-conatiner-padding: 14px;
 		position: fixed;
-		top: 24px;
-		left: 24px;
+		top: var(--padding-y);
+		left: var(--padding-x);
 		width: 320px;
 		max-height: max(400px, 90vh);
 		overflow-y: scroll;
