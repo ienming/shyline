@@ -183,9 +183,11 @@ import InputTextarea from './InputTextarea.vue';
 import InputFile from './InputFile.vue';
 import InputSelect from './InputSelect.vue';
 import Logo from './Logo.vue';
+import { breakpointsAntDesign } from '@vueuse/core';
 
 const canvasContainerRef = useTemplateRef('canvasContainer');
 const uiContainerRef = useTemplateRef('uiContainer');
+const breakpoints = useBreakpoints(breakpointsAntDesign);
 let canvasEl;
 let p5Instance;
 const MODE = {
@@ -236,6 +238,7 @@ const colorRecommends = [
 ];
 
 // UI
+const isSmallScreen = computed(() => breakpoints.smaller('sm'));
 const isUIShow = ref(true);
 const isRecording = ref(false);
 const bgColor = ref({ r: 0, g: 0, b: 0 });
@@ -248,12 +251,22 @@ const amp = ref(20);
 const freq = ref(0.01);
 const speed = ref(0.02);
 const waveAngle = ref(360);
-const showWave = ref(true);
+const showWave = ref(false);
 const colorStart = ref(colorRecommends[0].start);
 const colorEnd = ref(colorRecommends[0].end);
 const maxResolution = 4;
 const saveResolution = ref(2);
 let font = 'Helvetica';
+
+watch(isSmallScreen.value, (newVal, oldValue) => {
+	if (newVal === oldValue) return;
+	
+	isUIShow.value = !newVal;
+	textSize.value = newVal ? 90 : 200;
+	sampling.value = newVal ? 8 : 10;
+}, {
+	immediate: true,
+});
 
 function refreshBuffer() {
 	p5Instance.refreshSourceBuffer();
@@ -581,16 +594,18 @@ onMounted(() => {
 	.logo {
 		position: fixed;
 		top: var(--padding-y);
-		right: var(--padding-x);
+		left: var(--padding-x);
 		z-index: 1;
-		width: 180px;
+		width: 160px;
 	}
 
 	.ui-container {
 		--ui-conatiner-padding: 14px;
 		position: fixed;
-		top: var(--padding-y);
-		left: var(--padding-x);
+		bottom: var(--padding-y);
+		left: 50%;
+		z-index: 1;
+		transform: translateX(-50%);
 		width: 320px;
 		max-height: max(400px, 90vh);
 		overflow-y: scroll;
@@ -599,9 +614,16 @@ onMounted(() => {
 		background-color: rgba(0, 0, 0, 0.75);
 		backdrop-filter: blur(8px);
 		color: #999;
-		z-index: 1;
 		scrollbar-width: thin;
 		scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+
+		@media screen and (min-width: 768px) {
+			top: var(--padding-y);
+			right: var(--padding-x);
+			bottom: auto;
+			left: auto;
+			transform: none;
+		}
 
 		&::-webkit-scrollbar {
 			width: 6px;
@@ -750,12 +772,7 @@ onMounted(() => {
 	.canvas-container {
 		width: 100vw;
 		height: 100vh;
-
-		canvas {
-			width: 100%;
-			height: 100vh;
-			display: block;
-		}
+		overflow: hidden;
 	}
 }
 </style>
