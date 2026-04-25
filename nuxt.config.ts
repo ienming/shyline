@@ -8,6 +8,9 @@ export default defineNuxtConfig({
     host: '0.0.0.0',
     port: 3000,
   },
+  ignore: [
+    process.env.NODE_ENV === 'production' ? 'app/pages/landing.vue' : '',
+  ],
   ssr: false,
   app: {
     baseURL: '/shyline/',
