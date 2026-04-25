@@ -5,12 +5,11 @@
   <section class="seasoning">
     <div class="seasoning__label mobile">
       <span class="seasoning__year">
-        2026
-        <span class="seasoning__icon" aria-hidden="true">
-          <img src="/imgs/icon-shoppingbad.png" alt="" />
-        </span>
+        2026</br>Spring
       </span>
-      <span class="seasoning__season">Spring</span>
+      <span class="seasoning__icon" aria-hidden="true">
+        <img src="/imgs/icon-shoppingbad.png" alt="" />
+      </span>
     </div>
     <div class="seasoning__inner">
       <div class="col-left">
@@ -47,6 +46,22 @@
         </div>
       </div>
     </div>
+
+    <div class="seasoning__scroll-container">
+      <div class="seasoning__collage-photo seasoning__photo--1">
+          <!-- <img src="/imgs/seasoning-1.jpg" alt="" /> -->
+      </div>
+      <div class="seasoning__collage-photo seasoning__photo--2">
+          <!-- <img src="/imgs/seasoning-2.jpg" alt="" /> -->
+        </div>
+        <div class="seasoning__collage-photo seasoning__photo--3">
+          <!-- <img src="/imgs/seasoning-3.jpg" alt="" /> -->
+        </div>
+        <div class="seasoning__collage-photo seasoning__photo--4">
+          <!-- <img src="/imgs/seasoning-4.jpg" alt="" /> -->
+        </div>
+    </div>
+
     <div class="seasoning__desc">
       <p class="text-body seasoning__desc-text mobile">
         Spring 2026 brings sunset-toned gradients and a cooler way to face the world. A subtle barrier, a lasting
@@ -82,7 +97,7 @@
   }
 
   &__inner {
-    display: flex;
+    display: none;
     
     @media (min-width: 768px) {
       display: grid;
@@ -93,22 +108,55 @@
     }
   }
 
-  &__label {
+  &__scroll-container {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 36px;
-    padding: 0 12px;
+    height: 430px;
+    width: 100vw;
+    overflow-x: scroll;
 
-    &.desktop {
+    @media (min-width: 768px) {
       display: none;
     }
 
+    .seasoning__collage-photo {
+      aspect-ratio: 3 / 4;
+      width: 200px;
+      transition: width .3s ease-in-out;
+
+      &:hover {
+        width: 360px;
+      }
+    }
+
+    .seasoning__photo {
+      @for $i from 1 through 4 {
+        &--#{$i} {
+          background-image: url('/imgs/seasoning-#{$i}.jpg');
+          background-size: auto 100%;
+        }
+      }
+    }
+  }
+
+  &__label {
+    margin-bottom: 36px;
+    padding: 0 12px;
+    
+    &.mobile {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    
+    &.desktop {
+      display: none;
+    }
+    
     @media (min-width: 768px) {
       &.mobile {
         display: none;
       }
-
+      
       &.desktop {
         display: block;
       }
@@ -123,6 +171,10 @@
     display: inline-flex;
     align-items: baseline;
     gap: 12px;
+  }
+
+  &__icon {
+    width: 28px;
   }
 
   &__season {
@@ -203,10 +255,11 @@
   &__desc-text {
     position: relative;
     z-index: 1;
-    font-size: clamp(13px, 4vw, 36px);
+    font-size: clamp(24px, 4vw, 36px);
     font-weight: 400;
     color: var(--shl-ref-color-primary);
     line-height: 1;
+    margin-top: 36px;
     margin-bottom: 80px;
     padding: 0 12px;
     

@@ -71,7 +71,7 @@
   &__sub {
     font-weight: 400;
     font-variation-settings: 'opsz' 14;
-    font-size: clamp(16px, 1.4vw, 28px);
+    font-size: clamp(18px, 4vw, 28px);
     line-height: 32px;
   }
 
@@ -79,7 +79,7 @@
     content: '';
     display: block;
     width: 100%;
-    height: 30%;
+    height: 40%;
     background: linear-gradient(
       to bottom,
       #E44400 0%,

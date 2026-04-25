@@ -50,10 +50,28 @@ html, body {
   font-size: clamp(20px, 1.4vw, 32px);
   line-height: 22px;
   font-weight: 400;
-  font-variation-settings: 'opsz' 0;
+  font-variation-settings: 'opsz' 6;
 
   @media (min-width: 768px) {
     line-height: 28px;
+  }
+}
+
+.shyline-link {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 32px;
+  color: #fff;
+  letter-spacing: 0.08em;
+  padding-bottom: 3px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  background-image: url('/imgs/shape-border.png');
+  background-repeat: no-repeat;
+  background-position-y: bottom;
+  background-size: 100% 2px;
+
+  &:hover {
+    background-repeat: repeat-y;
   }
 }
 </style>
@@ -73,7 +91,6 @@ html, body {
   color: #fff;
 }
 
-// ── Header ──────────────────────────────────────────────────
 .landing__header {
   position: fixed;
   top: 0;
@@ -83,7 +100,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px;
+  padding: 20px 12px;
   pointer-events: none;
 
   @media (min-width: 768px) {
@@ -107,11 +124,16 @@ html, body {
 .landing__hamburger {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 4px;
+  transition: gap .2s ease;
+
+  &:hover {
+    gap: 12px;
+  }
 
   span {
     display: block;

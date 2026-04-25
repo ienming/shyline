@@ -12,19 +12,10 @@ const products = [
 <template>
   <section class="product-list">
     <div class="product-list__grid">
-      <article
-        v-for="product in products"
-        :key="product.id"
-        class="product-card">
+      <article v-for="product in products" :key="product.id" class="product-card">
         <div class="product-card__image-wrap">
-          <img
-            :src="`/imgs/glass-${product.id}-pattern.png`"
-            alt=""
-            class="product-card__image">
-          <img
-            :src="`/imgs/glass-${product.id}.png`"
-            alt=""
-            class="product-card__image-hover">
+          <img :src="`/imgs/glass-${product.id}-pattern.png`" alt="" class="product-card__image">
+          <img :src="`/imgs/glass-${product.id}.png`" alt="" class="product-card__image-hover">
         </div>
         <div class="product-card__info">
           <h3 class="product-card__name">{{ product.name }}</h3>
@@ -34,7 +25,7 @@ const products = [
     </div>
 
     <div class="product-list__cta">
-      <a href="#" class="product-list__link">List all shades</a>
+      <a href="#" class="shyline-link">List all shades</a>
     </div>
   </section>
 </template>
@@ -67,22 +58,6 @@ const products = [
       margin-top: 64px;
     }
   }
-
-  &__link {
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 32px;
-    color: rgba(255, 255, 255, 0.6);
-    letter-spacing: 0.08em;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
-    padding-bottom: 3px;
-    transition: color 0.2s ease, border-color 0.2s ease;
-
-    &:hover {
-      color: #fff;
-      border-color: rgba(255, 255, 255, 0.7);
-    }
-  }
 }
 
 .product-card {
@@ -104,8 +79,10 @@ const products = [
     }
   }
 
-  &__image, &__image-hover {
-    position: absolute;;
+  &__image,
+  &__image-hover {
+    position: absolute;
+    ;
     object-fit: cover;
     transition: opacity 0.3s ease;
   }

@@ -4,7 +4,7 @@
       <h2 class="footer__headline">
         When daylight ends,<br>shyline begins
       </h2>
-      <a href="#" class="footer__button">
+      <a href="#" class="shyline-link footer__button">
         <span>Claim Your Distance</span>
         <img src="/imgs/footer-cta-icon.png" alt="" class="footer__arrow">
       </a>
@@ -23,7 +23,7 @@
         </li>
       </ul>
       <span class="footer__nav-copyright">
-        © 2026 Shyline
+        © 2026 Shyline all rights reserved
       </span>
     </nav>
   </footer>
@@ -31,7 +31,14 @@
 
 <style scoped lang="scss">
 .footer {
-  padding: 80px 24px 48px;
+  padding: 80px 12px 48px;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background-image: url('/imgs/footer-bg-pattern.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
 
   @media (min-width: 768px) {
     padding: 120px 80px 56px;
@@ -39,8 +46,10 @@
 
   &__cta {
     display: flex;
+    flex: 1;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 32px;
     margin-bottom: 80px;
 
@@ -52,7 +61,7 @@
 
   &__headline {
     font-size: clamp(28px, 5.5vw, 60px);
-    line-height: 62px;
+    line-height: 1.1;
     letter-spacing: -1px;
     font-weight: 400;
     font-variation-settings: 'opsz' 6;
@@ -69,16 +78,9 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    font-size: 24px;
-    line-height: 32px;
-    color: #fff;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
-    padding-bottom: 4px;
-    transition: color 0.2s ease, border-color 0.2s ease, gap 0.2s ease;
+    transition: gap 0.2s ease;
 
     &:hover {
-      color: var(--shl-ref-color-secondary);
-      border-color: var(--shl-ref-color-secondary);
       gap: 14px;
     }
   }
@@ -97,14 +99,17 @@
     z-index: 1;
     display: flex;
     justify-content: space-between;
+    align-items: end;
   }
   
   &__nav-links {
     display: flex;
-    gap: 12px 24px;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0.5;
   
     @media (min-width: 768px) {
-      gap: 8px 32px;
+      flex-direction: row;
     }
   }
 
@@ -120,7 +125,13 @@
   }
 
   &__nav-copyright {
+    max-width: 105px;
+    text-align: right;
     color: var(--shl-ref-color-primary);
+
+    @media (min-width: 768px) {
+      max-width: unset;
+    }
   }
 }
 </style>

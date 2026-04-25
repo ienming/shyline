@@ -5,8 +5,12 @@
       <div class="hero__gradient-overlay" />
       <img
         src="/imgs/hero-logo-pattern.png"
-        alt="Hero pattern"
-        class="hero__pattern-overlay" />
+        alt="Logo pattern"
+        class="hero__pattern-overlay desktop" />
+      <img
+        src="/imgs/hero-logo-mobile.png"
+        alt="Logo pattern"
+        class="hero__pattern-overlay mobile" />
     </div>
 
     <div class="hero__content">
@@ -63,41 +67,58 @@
 
   &__pattern-overlay {
     position: absolute;
-    top: 50%;
     mix-blend-mode: plus-lighter;
+    
+    &.mobile {
+      top: 0;
+      z-index: 1;
+    }
 
+    &.desktop {
+      display: none;
+    }
+    
     @media (min-width: 768px) {
-      
+      &.mobile {
+        display: none;
+      }
+
+      &.desktop {
+        display: block;
+        top: 50%;
+      }
     }
   }
 
   &__content {
     position: absolute;
-    top: 50%;
     z-index: 2;
-
+    padding: 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    top: 80%;
+    
     @media (min-width: 768px) {
+      top: 50%;
       padding-left: 80px;
       max-width: 720px;
     }
   }
 
   &__title {
-    font-family: 'Degular', sans-serif;
-    font-size: 60px;
+    font-size: clamp(36px, 6vw, 60px);
     font-weight: 400;
     font-variation-settings: 'opsz' 72;
-    line-height: 52px;
-    margin: 0 0 18px;
+    line-height: 1;
     color: var(--shl-ref-color-white);
   }
 
   &__subtitle {
-    font-family: 'Degular', sans-serif;
-    font-size: 32px;
+    font-size: clamp(24px, 4vw, 32px);
     font-weight: 400;
     font-variation-settings: 'opsz' 72;
-    line-height: 32px;
+    line-height: 1;
     color: var(--shl-ref-color-white);
   }
 }
