@@ -44,7 +44,7 @@ useHead({
   padding: 0 12px;
 
   &__sun-wrap {
-    width: min(90vw, 1260px);
+    width: min(100%, 1260px);
     aspect-ratio: 1 / 1;
     margin: 0 auto;
     animation: sequence 12s infinite;

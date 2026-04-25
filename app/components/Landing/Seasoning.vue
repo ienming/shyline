@@ -113,7 +113,7 @@ import ShoppingBagIcon from './ShoppingBagIcon.vue';
     .seasoning__collage-photo {
       aspect-ratio: 3 / 4.5;
       width: 200px;
-      transition: width .3s ease-in-out;
+      transition: width 750ms cubic-bezier(0.85, 0.09, 0.15, 0.91);
 
       &:hover {
         width: 360px;
