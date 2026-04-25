@@ -1,10 +1,12 @@
 :root {
-    --shl-orange: #E44604;
+    --shl-red-orange: #E44604;
+    --shl-orange: #F4601B;
     --shl-pink: #FC618E;
     --shl-black: #000;
     --shl-white: #fff;
-    --shl-ref-color-primary: var(--shl-orange);
+    --shl-ref-color-primary: var(--shl-red-orange);
     --shl-ref-color-secondary: var(--shl-pink);
+    --shl-ref-color-tertiary: var(--shl-orange);
     --shl-ref-color-black: var(--shl-black);
     --shl-ref-color-white: var(--shl-white);
 }
@@ -25,6 +27,10 @@ img {
 
 h1, h2, h3, h4, h5, h6, p {
     margin: 0;
+}
+
+li {
+    list-style: none;
 }
 
 a {

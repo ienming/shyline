@@ -3,40 +3,54 @@
 
 <template>
   <section class="seasoning">
-    <div class="seasoning__inner">
-      <!-- Year label -->
-      <div class="seasoning__label">
-        <span class="seasoning__year">2026</span>
+    <div class="seasoning__label mobile">
+      <span class="seasoning__year">
+        2026
         <span class="seasoning__icon" aria-hidden="true">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="1" y="2.5" width="12" height="10.5" rx="1" stroke="white" stroke-width="1" fill="none" />
-            <line x1="1" y1="5.5" x2="13" y2="5.5" stroke="white" stroke-width="1" />
-            <line x1="4" y1="1" x2="4" y2="4" stroke="white" stroke-width="1" stroke-linecap="round" />
-            <line x1="10" y1="1" x2="10" y2="4" stroke="white" stroke-width="1" stroke-linecap="round" />
-          </svg>
+          <img src="/imgs/icon-shoppingbad.png" alt="" />
         </span>
-        <span class="seasoning__season">Spring</span>
+      </span>
+      <span class="seasoning__season">Spring</span>
+    </div>
+    <div class="seasoning__inner">
+      <div class="col-left">
+        <div class="seasoning__label desktop">
+          <span class="seasoning__year">
+            2026
+            <span class="seasoning__icon" aria-hidden="true">
+              <img src="/imgs/icon-shoppingbad.png" alt="" />
+            </span>
+          </span>
+          <span class="seasoning__season">Spring</span>
+        </div>
+        <div class="seasoning__collage-photo seasoning__photo--1">
+          <img src="/imgs/seasoning-1.jpg" alt="" />
+        </div>
+        <div class="seasoning__desc">
+          <p class="text-body seasoning__desc-text desktop">
+            Spring 2026 brings sunset-toned gradients and a cooler way to face the world. A subtle barrier, a lasting
+            impression—even after the sun goes down.
+          </p>
+        </div>
       </div>
-
-      <!-- Photo collage -->
-      <div class="seasoning__collage">
-        <div class="seasoning__photo seasoning__photo--1">
-          <div class="seasoning__placeholder" />
+      <div class="col-mid">
+        <div class="seasoning__collage-photo seasoning__photo--2">
+          <img src="/imgs/seasoning-2.jpg" alt="" />
         </div>
-        <div class="seasoning__photo seasoning__photo--2">
-          <div class="seasoning__placeholder" />
+        <div class="seasoning__collage-photo seasoning__photo--3">
+          <img src="/imgs/seasoning-3.jpg" alt="" />
         </div>
-        <div class="seasoning__photo seasoning__photo--3">
-          <div class="seasoning__placeholder" />
+      </div>
+      <div class="col-right">
+        <div class="seasoning__collage-photo seasoning__photo--4">
+          <img src="/imgs/seasoning-4.jpg" alt="" />
         </div>
       </div>
     </div>
-
-    <!-- Description -->
     <div class="seasoning__desc">
-      <p class="seasoning__desc-text">
-        Spring 2026 brings sunset-toned gradients and a cooler way to face the world.
-        A subtle frame, a lasting impression — even after the sun goes down.
+      <p class="text-body seasoning__desc-text mobile">
+        Spring 2026 brings sunset-toned gradients and a cooler way to face the world. A subtle barrier, a lasting
+        impression—even after the sun goes down.
       </p>
     </div>
   </section>
@@ -44,188 +58,173 @@
 
 <style scoped lang="scss">
 .seasoning {
-  background: #000;
-  padding: 0 0 80px;
+  position: relative;
 
   @media (min-width: 768px) {
-    padding: 0 0 120px;
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      z-index: 0;
+      bottom: 10%;
+      left: 50%;
+      opacity: 0.8;
+      transform-origin: center;
+      transform: translateX(-50%) rotate(35deg);
+      width: min(100%, 1320px);
+      height: 300px;
+      background-image: url('/imgs/seasoning-bg-logo-pattern.png');
+      background-position-y: bottom;
+      background-position-x: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
   }
 
   &__inner {
     display: flex;
-    flex-direction: column;
-    gap: 40px;
-    padding: 0 24px;
-
+    
     @media (min-width: 768px) {
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 0;
-      padding: 0 80px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding-top: 400px;
+      max-width: min(90vw, 1360px);
+      margin: 0 auto;
     }
   }
 
-  // ── Label block ───────────────────────────────────────────
   &__label {
     display: flex;
-    align-items: baseline;
+    flex-direction: column;
     gap: 8px;
-    flex-wrap: wrap;
+    margin-bottom: 36px;
+    padding: 0 12px;
+
+    &.desktop {
+      display: none;
+    }
 
     @media (min-width: 768px) {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
-      min-width: 140px;
-      padding-top: 12px;
+      &.mobile {
+        display: none;
+      }
+
+      &.desktop {
+        display: block;
+      }
     }
   }
 
   &__year {
-    font-family: 'Degular', sans-serif;
     font-size: clamp(28px, 4vw, 48px);
     font-weight: 300;
     color: #fff;
-    letter-spacing: -0.02em;
     line-height: 1;
-  }
-
-  &__icon {
     display: inline-flex;
-    align-items: center;
-    opacity: 0.55;
-    position: relative;
-    top: -2px;
-
-    @media (min-width: 768px) {
-      display: none;
-    }
+    align-items: baseline;
+    gap: 12px;
   }
 
   &__season {
-    font-family: 'Degular', sans-serif;
     font-size: clamp(28px, 4vw, 48px);
     font-weight: 300;
     color: #fff;
-    letter-spacing: -0.02em;
-    line-height: 1;
 
     @media (min-width: 768px) {
       display: flex;
       align-items: center;
       gap: 6px;
-
-      &::after {
-        content: '';
-        display: inline-block;
-        width: 14px;
-        height: 14px;
-        border: 1px solid rgba(255, 255, 255, 0.45);
-        border-radius: 2px;
-        background:
-          linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px) 0 3px / 100% 3px no-repeat,
-          linear-gradient(90deg, transparent 3px, rgba(255,255,255,0.2) 3px, rgba(255,255,255,0.2) 4px, transparent 4px) 0 0 / 4px 100% no-repeat;
-      }
     }
   }
 
-  // ── Collage ───────────────────────────────────────────────
-  &__collage {
-    position: relative;
+  .col-mid {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
 
     @media (min-width: 768px) {
-      flex: 1;
-      height: 560px;
+      display: block;
+    }
+  }
+
+  &__collage-photo {
+    --photo-collage-z-base: 0;
+    position: relative;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 36%;
+      height: 100%;
+      background-color: red;
+      background: linear-gradient(
+        to right,
+        var(--shl-ref-color-primary) 0%,
+        color-mix(in srgb, var(--shl-ref-color-secondary) 20%, transparent 80%) 80%,
+        color-mix(in srgb, var(--shl-ref-color-secondary), transparent 100%) 100%
+      );
+      position: absolute;
+      top: 0;
+      left: 0;
     }
   }
 
   &__photo {
-    overflow: hidden;
-    background: #111;
-    border: 1px solid #1e1e1e;
+    position: relative;
 
-    // Mobile: stacked photos
     &--1 {
-      width: 100%;
-      aspect-ratio: 3 / 4;
-
-      @media (min-width: 768px) {
-        position: absolute;
-        width: 42%;
-        height: 72%;
-        top: 0;
-        left: 22%;
-        aspect-ratio: unset;
-        z-index: 2;
-      }
+      z-index: calc(var(--photo-collage-z-base) + 1);
     }
 
     &--2 {
-      width: 70%;
-      aspect-ratio: 3 / 4;
+      --offset-x: 60px;
 
       @media (min-width: 768px) {
-        position: absolute;
-        width: 32%;
-        height: 60%;
-        bottom: 0;
-        left: 0;
-        aspect-ratio: unset;
-        z-index: 3;
-        transform: rotate(-2deg);
+        top: -240px;
+        left: calc(var(--offset-x) * -1);
+        width: calc(100% + var(--offset-x));
       }
     }
 
     &--3 {
-      width: 55%;
-      align-self: flex-end;
-      aspect-ratio: 3 / 4;
-
       @media (min-width: 768px) {
-        position: absolute;
-        width: 30%;
-        height: 55%;
-        top: 10%;
-        right: 0;
-        aspect-ratio: unset;
-        z-index: 1;
-        transform: rotate(1.5deg);
+        z-index: calc(var(--photo-collage-z-base) + 2);
+        width: 80%;
+        top: -300px;
+        right: -50%;
+      }
+    }
+
+    &--4 {
+      @media (min-width: 768px) {
+        width: 70%;
       }
     }
   }
 
-  &__placeholder {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%);
-    min-height: 200px;
-
-    @media (min-width: 768px) {
-      min-height: unset;
-    }
-  }
-
-  // ── Description ───────────────────────────────────────────
-  &__desc {
-    padding: 40px 24px 0;
-
-    @media (min-width: 768px) {
-      padding: 48px 80px 0;
-      max-width: 560px;
-    }
-  }
-
   &__desc-text {
-    font-family: 'Degular', sans-serif;
-    font-size: clamp(13px, 1.4vw, 15px);
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.55);
-    margin: 0;
-    line-height: 1.8;
-    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 1;
+    font-size: clamp(13px, 4vw, 36px);
+    font-weight: 400;
+    color: var(--shl-ref-color-primary);
+    line-height: 1;
+    margin-bottom: 80px;
+    padding: 0 12px;
+    
+    &.desktop {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      margin-top: 480px;
+
+      &.mobile {
+        display: none;
+      }
+
+      &.desktop {
+        display: block;
+      }
+    }
   }
 }
 </style>

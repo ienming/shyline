@@ -1,16 +1,12 @@
-<script setup lang="ts">
-</script>
-
 <template>
   <section class="card-section">
     <div class="card">
       <div class="card__content">
-        <p class="card__eyebrow">see softly</p>
-        <h2 class="card__title">Feel freely</h2>
-        <p class="card__sub">brings a linen touch to everyday shades.</p>
+        <h2 class="card__title">See softly<br>Feel freely</h2>
+        <p class="card__sub">Brings a clean touch to everyday shades</p>
       </div>
       <div class="card__media">
-        <div class="card__placeholder" />
+        <img src="/imgs/logo-chains.png" alt="" />
       </div>
     </div>
   </section>
@@ -18,106 +14,106 @@
 
 <style scoped lang="scss">
 .card-section {
-  background: #000;
-  padding: 0 16px 80px;
-
-  @media (min-width: 768px) {
-    padding: 0 80px 120px;
-  }
+  padding: 0 12px;
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
 }
 
 .card {
   position: relative;
   width: 100%;
-  min-height: 320px;
-  border-radius: 16px;
-  overflow: hidden;
-  background: linear-gradient(
-    130deg,
-    #c74000 0%,
-    #e05020 20%,
-    #e06030 50%,
-    #c85030 75%,
-    #7a2800 100%
-  );
+  height: 680px;
   display: flex;
   flex-direction: column;
-
+  border-radius: 30px;
+  overflow: hidden;
+  background-image: url('/imgs/card-model-mobile.png');
+  background-size: cover;
+  
   @media (min-width: 768px) {
-    flex-direction: row;
-    min-height: 400px;
-    border-radius: 20px;
+    max-width: min(90vw, 1360px);
+    overflow: visible;
+    background-image: url('/imgs/card-model-desktop.png');
+    background-position-x: 110%;
   }
 
   &__content {
     position: relative;
-    z-index: 2;
-    padding: 40px 32px 32px;
+    z-index: 1;
+    padding: 20px 0 0 20px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-
+    gap: 16px;
+    color: white;
+    
     @media (min-width: 768px) {
-      padding: 64px 56px;
-      justify-content: center;
+      padding: 170px 0 0 62px;
+      justify-content: flex-start;
       max-width: 480px;
+      color: var(--shl-ref-color-tertiary);
     }
-  }
-
-  &__eyebrow {
-    font-family: 'Degular', sans-serif;
-    font-size: clamp(22px, 4vw, 36px);
-    font-weight: 300;
-    font-style: italic;
-    color: rgba(255, 255, 255, 0.9);
-    margin: 0 0 4px;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
   }
 
   &__title {
-    font-family: 'Degular', sans-serif;
-    font-size: clamp(38px, 6vw, 72px);
-    font-weight: 600;
-    font-style: italic;
-    color: #fff;
-    margin: 0 0 20px;
-    letter-spacing: -0.03em;
-    line-height: 1.0;
-  }
-
-  &__sub {
-    font-family: 'Degular', sans-serif;
-    font-size: clamp(12px, 1.4vw, 14px);
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.7);
-    margin: 0;
-    letter-spacing: 0.03em;
-    line-height: 1.6;
-  }
-
-  &__media {
-    position: relative;
-    flex-shrink: 0;
-    height: 260px;
+    font-weight: 400;
+    font-variation-settings: 'opsz' 14;
+    font-size: clamp(48px, 6vw, 90px);
+    line-height: 48px;
+    letter-spacing: -1px;
 
     @media (min-width: 768px) {
-      width: 42%;
-      height: auto;
+      line-height: 84px;
     }
   }
 
-  &__placeholder {
+  &__sub {
+    font-weight: 400;
+    font-variation-settings: 'opsz' 14;
+    font-size: clamp(16px, 1.4vw, 28px);
+    line-height: 32px;
+  }
+
+  &::after {
+    content: '';
+    display: block;
     width: 100%;
-    height: 100%;
+    height: 30%;
     background: linear-gradient(
-      160deg,
-      rgba(255, 150, 80, 0.3) 0%,
-      rgba(180, 60, 20, 0.5) 50%,
-      rgba(80, 20, 0, 0.7) 100%
+      to bottom,
+      #E44400 0%,
+      color-mix(in srgb, #96FF6D 20%, transparent 80%) 80%,
+      color-mix(in srgb, #96FF6D, transparent 100%) 100%
     );
-    border-left: 1px solid rgba(255, 255, 255, 0.06);
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    @media (min-width: 768px) {
+      height: 50%;
+      top: unset;
+      bottom: 0;
+      border-radius: 0 0 30px 30px;
+      background: linear-gradient(
+        to top,
+        #E44400 0%,
+        color-mix(in srgb, #96FF6D 20%, transparent 80%) 80%,
+        color-mix(in srgb, #96FF6D, transparent 100%) 100%
+      );
+    }
+  }
+
+  &__media {
+    padding-bottom: 40px;
+
+    @media (min-width: 768px) {
+      position: absolute;
+      width: 100vw;
+      bottom: 0;
+      left: -60px;
+      padding-bottom: 0;
+    }
   }
 }
 </style>

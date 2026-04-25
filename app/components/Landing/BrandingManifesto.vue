@@ -1,21 +1,33 @@
 <script setup lang="ts">
 import CrossShape from './CrossShape.vue';
 
+const preloadLinks = Array.from({ length: 125 }, (_, i) => {
+  const padding = String(i).padStart(5, '0')
+  return {
+    rel: 'preload',
+    as: 'image',
+    href: `/imgs/sunset-ripple/sunset ripple_${padding}.jpg`,
+  }
+})
+
+useHead({
+  link: preloadLinks,
+})
 </script>
 
 <template>
   <section class="manifesto">
     <div class="manifesto__sun-wrap">
-      <div class="manifesto__sun" />
-      <h2 class="manifesto__heading">Made for after the run.</h2>
+      <h2 class="manifesto__heading manifesto__heading-desktop">Made for sunset</h2>
     </div>
+    <h2 class="manifesto__heading manifesto__heading-mobile">Made for sunset</h2>
     <p class="manifesto__body text-body">
       shyline frames the moment when light softens, each detail too faint for
       ordinary eyes to catch. We meet you in the pause — just you and the lens,
       daring enough to keep on, striking enough to look back.
     </p>
-    <!-- Manifesto image -->
     <div class="manifesto__image">
+      <img src="/imgs/manifesto-pattern.jpg" alt="" />
     </div>
     <div class="manifesto__shape-container">
       <CrossShape />
@@ -25,44 +37,20 @@ import CrossShape from './CrossShape.vue';
 
 <style scoped lang="scss">
 .manifesto {
-  background: #000;
-  overflow: hidden;
+  padding: 0 12px;
 
   &__sun-wrap {
-    position: relative;
-    width: 100%;
-    height: 280px;
-    overflow: hidden;
-
-    @media (min-width: 768px) {
-      height: 480px;
-    }
-  }
-
-  &__sun {
-    position: absolute;
-    left: 50%;
-    bottom: -10%;
-    transform: translateX(-50%);
-    width: min(100vw, 640px);
-    height: min(100vw, 640px);
-    border-radius: 50%;
-    background: radial-gradient(
-      circle at 50% 60%,
-      rgba(255, 255, 255, 0.9) 0%,
-      #FC618E 8%,
-      #E44604 20%,
-      rgba(228, 70, 4, 0.55) 36%,
-      rgba(180, 40, 0, 0.25) 52%,
-      rgba(100, 15, 0, 0.08) 68%,
-      transparent 80%
-    );
-    filter: blur(1px);
-
-    @media (min-width: 768px) {
-      width: min(90vw, 900px);
-      height: min(90vw, 900px);
-    }
+    width: min(80vw, 1260px);
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+    animation: sequence 12s infinite;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
   }
 
   &__heading {
@@ -70,14 +58,74 @@ import CrossShape from './CrossShape.vue';
     color: var(--shl-ref-color-primary);
     font-size: 28px;
     font-weight: 300;
-    font-variation-settings: 'opsz' 0;;
+    font-variation-settings: 'opsz' 0;
+    margin-top: 3px;
+  }
+
+  &__heading-desktop {
+    display: none;
+  }
+
+  &__heading-mobile {
+    text-align-last: left;
+    margin-bottom: 16px;
+  }
+
+  @media (min-width: 768px) {
+    &__heading-mobile {
+      display: none;
+    }
+
+    &__heading-desktop {
+      display: block;
+    }
   }
 
   &__body {
-    text-align: center;
     color: var(--shl-ref-color-secondary);
     max-width: 784px;
     margin: 0 auto;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 100px;
+      left: 0;
+      display: block;
+      width: 100%;
+      height: 200px;
+      background-image: linear-gradient(
+        to bottom,
+        color-mix(in srgb, black, transparent 100%) 0%,
+        black 100%,
+      );
+    }
+
+    @media (min-width: 768px) {
+      text-align: center;
+    }
+  }
+
+  &__image {
+    display: none;
+    border: 1px solid blue;
+    padding: 120px 0;
+
+    &::after {
+      content: '';
+      display: block;
+      border: 1px solid red;
+      background-image: linear-gradient(
+        to bottom,
+        color-mix(in srgb black, transparent 100%) 0%,
+        black 100%,
+      );
+    }
+
+    @media (min-width: 768px) {
+      display: block;
+    }
   }
 
   &__shape-container {
@@ -87,6 +135,17 @@ import CrossShape from './CrossShape.vue';
     display: inline-flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+@keyframes sequence {
+  @for $i from 0 through 124 {
+    $percent: percentage($i / 124);
+    $padding: if($i < 10, '0000', if($i < 100, '000', if($i < 1000, '00', if($i < 10000, '0', ''))));
+    
+    #{$percent} {
+      background-image: url('/imgs/sunset-ripple/sunset ripple_#{$padding}#{$i}.jpg');
+    }
   }
 }
 </style>

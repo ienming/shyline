@@ -46,6 +46,7 @@
 
   &__gradient-overlay {
     position: absolute;
+    z-index: 1;
     inset: 0;
     width: 80%;
     background: linear-gradient(

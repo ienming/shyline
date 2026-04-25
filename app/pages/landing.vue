@@ -48,9 +48,13 @@ html, body {
 
 .text-body {
   font-size: clamp(20px, 1.4vw, 32px);
-  line-height: 32px;
+  line-height: 22px;
   font-weight: 400;
   font-variation-settings: 'opsz' 0;
+
+  @media (min-width: 768px) {
+    line-height: 28px;
+  }
 }
 </style>
 
