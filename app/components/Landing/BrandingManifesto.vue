@@ -26,8 +26,12 @@ useHead({
       ordinary eyes to catch. We meet you in the pause — just you and the lens,
       daring enough to keep on, striking enough to look back.
     </p>
-    <div class="manifesto__image">
-      <img src="/imgs/manifesto-pattern.jpg" alt="" />
+    <div class="manifesto__bg">
+      <video
+        src="/video/glasses&butterfly.webm"
+        loop
+        muted
+        autoplay />
     </div>
     <div class="manifesto__shape-container">
       <CrossShape />
@@ -92,34 +96,46 @@ useHead({
       position: absolute;
       bottom: 100px;
       left: 0;
-      display: block;
       width: 100%;
       height: 200px;
       background-image: linear-gradient(
         to bottom,
         color-mix(in srgb, black, transparent 100%) 0%,
         black 100%,
-      );
-    }
-
+        );
+      display: none;
+      }
+      
     @media (min-width: 768px) {
       text-align: center;
+
+      &::after {
+        display: block;
+      }
     }
   }
 
-  &__image {
+  &__bg {
+    --padding-bottom: 120px;
+    position: relative;
     display: none;
-    border: 1px solid blue;
-    padding: 120px 0;
+    padding: var(--padding-bottom) 0;
+
+    >video {
+      width: 100%;
+    }
 
     &::after {
       content: '';
       display: block;
-      border: 1px solid red;
+      width: 100%;
+      height: 200px;
+      bottom: var(--padding-bottom);
+      position: absolute;
       background-image: linear-gradient(
-        to bottom,
-        color-mix(in srgb black, transparent 100%) 0%,
-        black 100%,
+        to top,
+        black 0%,
+        color-mix(in srgb, black, transparent 100%) 100%,
       );
     }
 

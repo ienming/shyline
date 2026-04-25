@@ -89,6 +89,7 @@ html, body {
   background: #000;
   min-height: 100vh;
   color: #fff;
+  overflow: hidden;
 }
 
 .landing__header {

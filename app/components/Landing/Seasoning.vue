@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ShoppingBagIcon from './ShoppingBagIcon.vue';
+
 </script>
 
 <template>
@@ -7,18 +9,16 @@
       <span class="seasoning__year">
         2026</br>Spring
       </span>
-      <span class="seasoning__icon" aria-hidden="true">
-        <img src="/imgs/icon-shoppingbad.png" alt="" />
-      </span>
+      <ShoppingBagIcon
+        color="#E44604"
+        class="seasoning__icon" />
     </div>
     <div class="seasoning__inner">
       <div class="col-left">
         <div class="seasoning__label desktop">
           <span class="seasoning__year">
             2026
-            <span class="seasoning__icon" aria-hidden="true">
-              <img src="/imgs/icon-shoppingbad.png" alt="" />
-            </span>
+            <ShoppingBagIcon class="seasoning__icon" />
           </span>
           <span class="seasoning__season">Spring</span>
         </div>
@@ -48,18 +48,10 @@
     </div>
 
     <div class="seasoning__scroll-container">
-      <div class="seasoning__collage-photo seasoning__photo--1">
-          <!-- <img src="/imgs/seasoning-1.jpg" alt="" /> -->
-      </div>
-      <div class="seasoning__collage-photo seasoning__photo--2">
-          <!-- <img src="/imgs/seasoning-2.jpg" alt="" /> -->
-        </div>
-        <div class="seasoning__collage-photo seasoning__photo--3">
-          <!-- <img src="/imgs/seasoning-3.jpg" alt="" /> -->
-        </div>
-        <div class="seasoning__collage-photo seasoning__photo--4">
-          <!-- <img src="/imgs/seasoning-4.jpg" alt="" /> -->
-        </div>
+      <div class="seasoning__collage-photo seasoning__photo--1" />
+      <div class="seasoning__collage-photo seasoning__photo--2" />
+      <div class="seasoning__collage-photo seasoning__photo--3" />
+      <div class="seasoning__collage-photo seasoning__photo--4" />
     </div>
 
     <div class="seasoning__desc">
@@ -119,7 +111,7 @@
     }
 
     .seasoning__collage-photo {
-      aspect-ratio: 3 / 4;
+      aspect-ratio: 3 / 4.5;
       width: 200px;
       transition: width .3s ease-in-out;
 
@@ -169,7 +161,7 @@
     color: #fff;
     line-height: 1;
     display: inline-flex;
-    align-items: baseline;
+    align-items: center;
     gap: 12px;
   }
 
