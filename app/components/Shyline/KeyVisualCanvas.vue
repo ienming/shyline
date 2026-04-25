@@ -389,7 +389,9 @@ onMounted(() => {
 		let saveSegments = [];
 
 		p.setup = async () => {
-			font = await p.loadFont(`${baseURL}font/fonnts.com-Degular_Variable.otf`);
+			if (import.meta.dev) {
+				font = await p.loadFont(`${baseURL}font/fonnts.com-Degular_Variable.otf`);
+			}
 			p.frameRate(frameRate);
 			canvasEl = p.createCanvas(canvasW, canvasH).canvas;
 			p.pixelDensity(1);
