@@ -87,7 +87,7 @@ useHead({
 
   &__body {
     color: var(--shl-ref-color-secondary);
-    max-width: 784px;
+    max-width: 940px;
     margin: 0 auto;
     position: relative;
 

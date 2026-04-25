@@ -78,11 +78,6 @@
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    transition: gap 0.2s ease;
-
-    &:hover {
-      gap: 14px;
-    }
   }
 
   &__icon {

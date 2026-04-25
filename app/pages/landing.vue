@@ -37,6 +37,12 @@ import Card from '~/components/Landing/Card.vue'
 import LandingFooter from '~/components/Landing/Footer.vue'
 
 const isNavOpen = ref(false);
+const lenisOptions = {
+  smooth: true,
+  duration: 0.5,
+  autoRaf: true,
+  direction: 'vertical',
+};
 </script>
 
 <style lang="scss">
@@ -62,16 +68,17 @@ html, body {
   font-weight: 300;
   line-height: 32px;
   color: #fff;
-  letter-spacing: 0.08em;
+  letter-spacing: 1px;
   padding-bottom: 3px;
   transition: color 0.2s ease, border-color 0.2s ease;
   background-image: url('/imgs/shape-border.png');
   background-repeat: no-repeat;
   background-position-y: bottom;
   background-size: 100% 2px;
+  transition: letter-spacing .2s ease;
 
   &:hover {
-    background-repeat: repeat-y;
+    letter-spacing: 2px;
   }
 }
 </style>
@@ -117,7 +124,7 @@ html, body {
   max-width: 108px;
 
   @media (min-width: 768px) {
-    padding-top: 12px;
+    padding-top: 20px;
     max-width: 200px;
   }
 }
@@ -144,7 +151,6 @@ html, body {
   }
 }
 
-// Mobile nav overlay
 @media (max-width: 767px) {
   .landing__nav--open {
     display: flex;
