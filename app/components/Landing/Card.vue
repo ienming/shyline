@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card__content">
         <h2 class="card__title">See softly<br>Feel freely</h2>
-        <p class="card__sub">Brings a clean touch to everyday shades</p>
+        <p class="card__sub">Brings a clean touch to everyday</p>
       </div>
       <div class="card__media">
         <img src="/imgs/logo-chains.png" alt="" />

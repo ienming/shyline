@@ -1,22 +1,54 @@
 <script setup lang="ts">
 import CrossShape from './CrossShape.vue';
+import { breakpointsAntDesign } from '@vueuse/core';
+
+const { $gsap } = useNuxtApp();
+const manifestoRef = useTemplateRef('manifesto');
+const breakpoints = useBreakpoints(breakpointsAntDesign);
+let ctx: gsap.Context;
 
 const preloadLinks = Array.from({ length: 125 }, (_, i) => {
   const padding = String(i).padStart(5, '0')
   return {
     rel: 'preload',
-    as: 'image',
+    as: 'image' as const,
     href: `/imgs/sunset-ripple/sunset ripple_${padding}.jpg`,
   }
 })
 
 useHead({
   link: preloadLinks,
-})
+});
+
+onMounted(() => {
+  if (breakpoints.smaller('md').value) return;
+  if (!manifestoRef.value) return;
+
+  ctx = $gsap.context(() => {
+    $gsap.to('.manifesto__video', {
+      scale: 1,
+      scrollTrigger: {
+        trigger: '.manifesto__bg',
+        markers: true,
+        pin: true,
+        scrub: 1,
+        start: 'top top',
+        end: 'bottom top',
+        // pinSpacing: false,
+      },
+    });
+  }, manifestoRef.value);
+});
+
+onUnmounted(() => {
+  ctx && ctx.revert();
+});
 </script>
 
 <template>
-  <section class="manifesto">
+  <section
+    ref="manifesto"
+    class="manifesto">
     <div class="manifesto__sun-wrap">
       <h2 class="manifesto__heading manifesto__heading-desktop">Made for sunset</h2>
     </div>
@@ -27,11 +59,13 @@ useHead({
       daring enough to keep on, striking enough to look back.
     </p>
     <div class="manifesto__bg">
-      <video
-        src="/video/glasses&butterfly.webm"
-        loop
-        muted
-        autoplay />
+      <div class="manifesto__video">
+        <video
+          src="/video/glasses&butterfly.webm"
+          loop
+          muted
+          autoplay />
+      </div>
     </div>
     <div class="manifesto__shape-container">
       <CrossShape />
@@ -117,27 +151,35 @@ useHead({
 
   &__bg {
     --padding-bottom: 120px;
-    position: relative;
     display: none;
     padding: var(--padding-bottom) 0;
+    height: 100vh;
+    
+    .manifesto__video {
+      position: relative;
+      transform-origin: center bottom;
+      transform: scale(0);
+      
+      >video {
+        width: 100%;
+        height: 100%;
+      }
 
-    >video {
-      width: 100%;
+      &::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 200px;
+        position: absolute;
+        bottom: 0;
+        background-image: linear-gradient(
+          to top,
+          black 0%,
+          color-mix(in srgb, black, transparent 100%) 100%,
+        );
+      }
     }
 
-    &::after {
-      content: '';
-      display: block;
-      width: 100%;
-      height: 200px;
-      bottom: var(--padding-bottom);
-      position: absolute;
-      background-image: linear-gradient(
-        to top,
-        black 0%,
-        color-mix(in srgb, black, transparent 100%) 100%,
-      );
-    }
 
     @media (min-width: 768px) {
       display: block;
