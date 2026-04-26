@@ -25,8 +25,8 @@ onMounted(() => {
   if (!manifestoRef.value) return;
 
   ctx = $gsap.context(() => {
-    $gsap.to('.manifesto__video', {
-      scale: 1,
+    const tl = $gsap.timeline({
+      paused: true,
       scrollTrigger: {
         trigger: '.manifesto__bg',
         markers: true,
@@ -37,6 +37,16 @@ onMounted(() => {
         // pinSpacing: false,
       },
     });
+
+    tl
+      .to('.manifesto__video', {
+        scale: 1,
+        duration: 1,
+      })
+      .to('.manifesto__overlay', {
+        opacity: 1,
+        duration: 2,
+      });
   }, manifestoRef.value);
 });
 
@@ -65,6 +75,11 @@ onUnmounted(() => {
           loop
           muted
           autoplay />
+      </div>
+      <div class="manifesto__overlay">
+        <p class="text-body">
+          Manifesto...
+        </p>
       </div>
     </div>
     <div class="manifesto__shape-container">
@@ -154,6 +169,8 @@ onUnmounted(() => {
     display: none;
     padding: var(--padding-bottom) 0;
     height: 100vh;
+    position: relative;
+    // border: 2px solid blue;
     
     .manifesto__video {
       position: relative;
@@ -184,6 +201,21 @@ onUnmounted(() => {
     @media (min-width: 768px) {
       display: block;
     }
+  }
+
+  &__overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.35);
+    height: 100vh;
+    width: 100%;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(3px);
+    // border: 2px solid purple;
   }
 
   &__shape-container {
