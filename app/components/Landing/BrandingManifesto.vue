@@ -17,10 +17,11 @@ const preloadLinks = Array.from({ length: 125 }, (_, i) => {
 });
 const taglines = [
   'Made for sunset',
-  'Born for golden hour',
-  'Where light softens',
-  'The pause before dark',
-  'Dare to look back',
+  'The tender grace of a dying day',
+  'Beautiful still, though dusk draws near',
+  'A light that never was',
+  'The long light shakes',
+  'The sky is the daily bread of the eyes',
 ];
 const currentTaglineIndex = ref(0);
 const currentTagline = computed(() => taglines[currentTaglineIndex.value]);

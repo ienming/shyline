@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import FlipLink from './FlipLink.vue';
+
 const products = [
   { id: 'amphibians', name: 'AMPHIBIANS', price: '$200' },
   { id: 'apple-eye', name: 'APPLE EYE', price: '$200' },
@@ -25,7 +27,7 @@ const products = [
     </div>
 
     <div class="product-list__cta">
-      <a href="#" class="shyline-link">List all shades</a>
+      <FlipLink label="List all shades" />
     </div>
   </section>
 </template>

@@ -1,13 +1,18 @@
+<script setup lang="ts">
+import FlipLink from './FlipLink.vue';
+
+</script>
+
 <template>
   <footer class="footer">
     <div class="footer__cta">
       <h2 class="footer__headline">
         When daylight ends,<br>shyline begins
       </h2>
-      <a href="#" class="shyline-link footer__button">
-        <span>Claim Your Distance</span>
+      <div class="footer__button">
+        <FlipLink label="Claim Your Distance" />
         <img src="/imgs/footer-cta-icon.png" alt="" class="footer__arrow">
-      </a>
+      </div>
     </div>
 
     <nav class="footer__nav" aria-label="Footer navigation">
