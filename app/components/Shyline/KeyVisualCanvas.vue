@@ -238,7 +238,6 @@ const colorRecommends = [
 ];
 
 // UI
-const isSmallScreen = computed(() => breakpoints.smaller('sm'));
 const isUIShow = ref(true);
 const isRecording = ref(false);
 const bgColor = ref({ r: 0, g: 0, b: 0 });
@@ -258,7 +257,7 @@ const maxResolution = 4;
 const saveResolution = ref(2);
 let font = 'Helvetica';
 
-watch(isSmallScreen.value, (newVal, oldValue) => {
+watch(breakpoints.smaller('sm').value, (newVal, oldValue) => {
 	if (newVal === oldValue) return;
 	
 	isUIShow.value = !newVal;

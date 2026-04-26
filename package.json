@@ -12,6 +12,7 @@
   "dependencies": {
     "@vueuse/core": "^13.9.0",
     "@vueuse/nuxt": "^13.9.0",
+    "gsap": "^3.15.0",
     "input-range-scss": "^2.0.1",
     "nuxt": "^4.1.2",
     "nuxt-lenis": "^3.0.0",

@@ -19,8 +19,5 @@ export default defineNuxtConfig({
     'vue-color/style.css',
     '~/assets/css/main.css',
   ],
-  modules: [
-    '@vueuse/nuxt',
-    'nuxt-lenis',
-  ],
+  modules: ['@vueuse/nuxt', 'nuxt-lenis'],
 });

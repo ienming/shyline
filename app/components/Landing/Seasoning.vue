@@ -1,6 +1,36 @@
 <script setup lang="ts">
 import ShoppingBagIcon from './ShoppingBagIcon.vue';
+import { breakpointsAntDesign } from '@vueuse/core';
 
+const { $gsap } = useNuxtApp();
+const seasoningInnerRef = useTemplateRef('seasoningInner');
+const breakpoints = useBreakpoints(breakpointsAntDesign);
+let ctx: gsap.Context;
+
+onMounted(() => {
+  if (breakpoints.smaller('md').value) return;
+  if (!seasoningInnerRef.value) return;
+
+  ctx = $gsap.context(() => {
+    const targets: gsap.DOMTarget[] = $gsap.utils.toArray('.seasoning__collage-photo');
+    targets.forEach(target => {
+      $gsap.from(target, {
+        opacity: 0,
+        y: 100,
+        scrollTrigger: {
+          trigger: target,
+          start: 'top bottom',
+          end: 'bottom top',
+          toggleActions: 'play pause resume reverse',
+        },
+      })
+    })
+  }, seasoningInnerRef.value);
+});
+
+onUnmounted(() => {
+  ctx && ctx.revert();
+});
 </script>
 
 <template>
@@ -9,11 +39,11 @@ import ShoppingBagIcon from './ShoppingBagIcon.vue';
       <span class="seasoning__year">
         2026</br>Spring
       </span>
-      <ShoppingBagIcon
-        color="#E44604"
-        class="seasoning__icon" />
+      <ShoppingBagIcon color="#E44604" class="seasoning__icon" />
     </div>
-    <div class="seasoning__inner">
+    <div
+      ref="seasoningInner"
+      class="seasoning__inner">
       <div class="col-left">
         <div class="seasoning__label desktop">
           <span class="seasoning__year">
@@ -90,7 +120,7 @@ import ShoppingBagIcon from './ShoppingBagIcon.vue';
 
   &__inner {
     display: none;
-    
+
     @media (min-width: 768px) {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -133,22 +163,22 @@ import ShoppingBagIcon from './ShoppingBagIcon.vue';
   &__label {
     margin-bottom: 36px;
     padding: 0 12px;
-    
+
     &.mobile {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
     }
-    
+
     &.desktop {
       display: none;
     }
-    
+
     @media (min-width: 768px) {
       &.mobile {
         display: none;
       }
-      
+
       &.desktop {
         display: block;
       }
@@ -199,12 +229,10 @@ import ShoppingBagIcon from './ShoppingBagIcon.vue';
       width: 36%;
       height: 100%;
       background-color: red;
-      background: linear-gradient(
-        to right,
-        var(--shl-ref-color-primary) 0%,
-        color-mix(in srgb, var(--shl-ref-color-secondary) 20%, transparent 80%) 80%,
-        color-mix(in srgb, var(--shl-ref-color-secondary), transparent 100%) 100%
-      );
+      background: linear-gradient(to right,
+          var(--shl-ref-color-primary) 0%,
+          color-mix(in srgb, var(--shl-ref-color-secondary) 20%, transparent 80%) 80%,
+          color-mix(in srgb, var(--shl-ref-color-secondary), transparent 100%) 100%);
       position: absolute;
       top: 0;
       left: 0;
@@ -254,7 +282,7 @@ import ShoppingBagIcon from './ShoppingBagIcon.vue';
     margin-top: 36px;
     margin-bottom: 80px;
     padding: 0 12px;
-    
+
     &.desktop {
       display: none;
     }
