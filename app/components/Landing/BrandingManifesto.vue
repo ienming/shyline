@@ -14,13 +14,28 @@ const preloadLinks = Array.from({ length: 125 }, (_, i) => {
     as: 'image' as const,
     href: `/imgs/sunset-ripple/sunset ripple_${padding}.jpg`,
   }
-})
+});
+const taglines = [
+  'Made for sunset',
+  'Born for golden hour',
+  'Where light softens',
+  'The pause before dark',
+  'Dare to look back',
+];
+const currentTaglineIndex = ref(0);
+const currentTagline = computed(() => taglines[currentTaglineIndex.value]);
+let taglineInterval: ReturnType<typeof setInterval>;
+const TAGLINE_INTERVAL = 3000;
 
 useHead({
   link: preloadLinks,
 });
 
 onMounted(() => {
+  taglineInterval = setInterval(() => {
+    currentTaglineIndex.value = (currentTaglineIndex.value + 1) % taglines.length;
+  }, TAGLINE_INTERVAL);
+
   if (breakpoints.smaller('md').value) return;
   if (!manifestoRef.value) return;
 
@@ -51,6 +66,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  clearInterval(taglineInterval);
   ctx && ctx.revert();
 });
 </script>
@@ -60,7 +76,13 @@ onUnmounted(() => {
     ref="manifesto"
     class="manifesto">
     <div class="manifesto__sun-wrap">
-      <h2 class="manifesto__heading manifesto__heading-desktop">Made for sunset</h2>
+      <h2 class="manifesto__heading manifesto__heading-desktop">
+        <span class="manifesto__tagline-wrap">
+          <Transition name="tagline-flip">
+            <span :key="currentTagline" class="manifesto__tagline">{{ currentTagline }}</span>
+          </Transition>
+        </span>
+      </h2>
     </div>
     <h2 class="manifesto__heading manifesto__heading-mobile">Made for sunset</h2>
     <p class="manifesto__body text-body">
@@ -104,6 +126,23 @@ onUnmounted(() => {
     justify-content: center;
     align-items: center;
     
+  }
+
+  &__tagline-wrap {
+    display: block;
+    position: relative;
+    perspective: 600px;
+    height: 1.4em;
+  }
+
+  &__tagline {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    display: block;
+    white-space: nowrap;
   }
 
   &__heading {
@@ -226,6 +265,32 @@ onUnmounted(() => {
     align-items: center;
     justify-content: center;
   }
+}
+
+.tagline-flip-enter-active,
+.tagline-flip-leave-active {
+  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  transform-origin: center top;
+}
+
+.tagline-flip-enter-from {
+  transform: rotateX(90deg) translateX(-50%);
+  opacity: 0;
+}
+
+.tagline-flip-enter-to {
+  transform: rotateX(0deg) translateX(-50%);
+  opacity: 1;
+}
+
+.tagline-flip-leave-from {
+  transform: rotateX(0deg) translateX(-50%);
+  opacity: 1;
+}
+
+.tagline-flip-leave-to {
+  transform: rotateX(-90deg) translateX(-50%);
+  opacity: 0;
 }
 
 @keyframes sequence {
