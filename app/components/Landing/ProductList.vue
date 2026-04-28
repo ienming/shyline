@@ -27,7 +27,9 @@ const products = [
     </div>
 
     <div class="product-list__cta">
-      <FlipLink label="List all shades" />
+      <FlipLink>
+        <span>List all shades</span>
+      </FlipLink>
     </div>
   </section>
 </template>

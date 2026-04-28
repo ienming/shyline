@@ -1,6 +1,5 @@
 <script setup lang="ts">
 withDefaults(defineProps<{
-  label: string
   href?: string
 }>(), {
   href: '#',
@@ -9,10 +8,14 @@ withDefaults(defineProps<{
 
 <template>
   <a :href="href" class="flip-link">
-    <span class="flip-link__wrap">
-      <span class="flip-link__text flip-link__text--out">{{ label }}</span>
-      <span class="flip-link__text flip-link__text--in">{{ label }}</span>
-    </span>
+    <div class="flip-link__wrap">
+      <div class="flip-link__text flip-link__text--out">
+        <slot />
+      </div>
+      <div class="flip-link__text flip-link__text--in">
+        <slot />
+      </div>
+    </div>
   </a>
 </template>
 
@@ -36,8 +39,6 @@ withDefaults(defineProps<{
     position: relative;
     perspective: 600px;
     height: 32px;
-    width: 160px;
-    // overflow: hidden;
   }
 
   &__text {

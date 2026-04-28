@@ -10,8 +10,12 @@ import FlipLink from './FlipLink.vue';
         When daylight ends,<br>shyline begins
       </h2>
       <div class="footer__button">
-        <FlipLink label="Claim Your Distance" />
-        <img src="/imgs/footer-cta-icon.png" alt="" class="footer__arrow">
+        <FlipLink>
+          <span class="footer__button-slot">
+            Claim Your Distance
+            <img src="/imgs/footer-cta-icon.png" alt="" class="footer__arrow">
+          </span>
+        </FlipLink>
       </div>
     </div>
 
@@ -79,7 +83,7 @@ import FlipLink from './FlipLink.vue';
     text-align: center;
   }
 
-  &__button {
+  &__button-slot {
     display: inline-flex;
     align-items: center;
     gap: 10px;
