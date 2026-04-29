@@ -112,6 +112,8 @@ onUnmounted(() => {
 </template>
 
 <style scoped lang="scss">
+@use 'sass:math';
+
 .manifesto {
   padding: 0 12px;
 
@@ -259,6 +261,7 @@ onUnmounted(() => {
   }
 
   &__shape-container {
+    position: relative;
     padding: 60px 0;
     margin: 0 auto;
     width: 100%;
@@ -296,7 +299,7 @@ onUnmounted(() => {
 
 @keyframes sequence {
   @for $i from 0 through 124 {
-    $percent: percentage($i / 124);
+    $percent: math.percentage(calc($i / 124));
     $padding: if($i < 10, '0000', if($i < 100, '000', if($i < 1000, '00', if($i < 10000, '0', ''))));
     
     #{$percent} {

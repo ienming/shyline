@@ -73,7 +73,7 @@ const { variant, size, disabled } = defineProps({
         background-color: #6c757d;
         color: #fff;
         &:hover:not(:disabled) {
-            background-color: darken(#6c757d, 10%);
+            background-color: color-mix(in srgb, #6c757d 90%, black 10%);
         }
     }
     &--tertiary {

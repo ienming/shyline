@@ -2,7 +2,7 @@
 import ShoppingBagIcon from './ShoppingBagIcon.vue';
 import { breakpointsAntDesign } from '@vueuse/core';
 
-const { $gsap } = useNuxtApp();
+const { $gsap, $SplitText } = useNuxtApp();
 const seasoningInnerRef = useTemplateRef('seasoningInner');
 const breakpoints = useBreakpoints(breakpointsAntDesign);
 let ctx: gsap.Context;
@@ -24,7 +24,24 @@ onMounted(() => {
           toggleActions: 'play pause resume reverse',
         },
       })
-    })
+    });
+
+    const split = $SplitText.create('.seasoning__desc-text', {
+      type: 'words',
+      wordsClass: 'split-words',
+    });
+    $gsap.to(split.words, {
+      opacity: 1,
+      ease: 'power4',
+      stagger: 0.04,
+      scrollTrigger: {
+        trigger: '.seasoning__desc',
+        start: 'top 70%',
+        end: 'bottom 30%',
+        scrub: true,
+        toggleActions: 'play pause resume reverse',
+      }
+    });
   }, seasoningInnerRef.value);
 });
 
@@ -244,6 +261,10 @@ onUnmounted(() => {
 
     &--1 {
       z-index: calc(var(--photo-collage-z-base) + 1);
+
+      @media (min-width: 768px) {
+        aspect-ratio: 4 / 6;
+      }
     }
 
     &--2 {
@@ -259,7 +280,7 @@ onUnmounted(() => {
     &--3 {
       @media (min-width: 768px) {
         z-index: calc(var(--photo-collage-z-base) + 2);
-        width: 80%;
+        width: 84%;
         top: -300px;
         right: -50%;
       }
@@ -283,12 +304,17 @@ onUnmounted(() => {
     margin-bottom: 80px;
     padding: 0 12px;
 
+    :deep(.split-words) {
+      opacity: 0.3;
+    }
+
     &.desktop {
       display: none;
     }
 
     @media (min-width: 768px) {
-      margin-top: 480px;
+      margin-top: 450px;
+      padding-bottom: 60px;
 
       &.mobile {
         display: none;
