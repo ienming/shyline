@@ -2,12 +2,12 @@
 import FlipLink from './FlipLink.vue';
 
 const products = [
-  { id: 'amphibians', name: 'AMPHIBIANS', price: '$200' },
-  { id: 'apple-eye', name: 'APPLE EYE', price: '$200' },
-  { id: 'golden-leaf', name: 'GOLDEN LEAF', price: '$200' },
-  { id: 'praying-mantis', name: 'PRAYING MANTIS', price: '$200' },
-  { id: 'squid', name: 'SQUID', price: '$200' },
-  { id: 'hawksbill', name: 'HAWKSBILL', price: '$200' },
+  { id: 'amphibians', name: 'AMPHIBIANS', price: '$5900' },
+  { id: 'apple-eye', name: 'APPLE EYE', price: '$4200' },
+  { id: 'golden-leaf', name: 'GOLDEN LEAF', price: '$5980' },
+  { id: 'praying-mantis', name: 'PRAYING MANTIS', price: '$3600' },
+  { id: 'squid', name: 'SQUID', price: '$4800' },
+  { id: 'hawksbill', name: 'HAWKSBILL', price: '$3880' },
 ]
 </script>
 
@@ -75,6 +75,7 @@ const products = [
     width: 100%;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     overflow: hidden;
     height: 170px;
 

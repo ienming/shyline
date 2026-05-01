@@ -54,7 +54,7 @@ onUnmounted(() => {
   <section class="seasoning">
     <div class="seasoning__label mobile">
       <span class="seasoning__year">
-        2026</br>Spring
+        2026<br />Spring
       </span>
       <ShoppingBagIcon color="#E44604" class="seasoning__icon" />
     </div>

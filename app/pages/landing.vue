@@ -1,31 +1,33 @@
 <template>
-  <div class="landing">
-    <!-- Minimal nav -->
-    <header class="landing__header">
-      <a href="#" class="landing__logo">
-        <img src="/imgs/logo-shyline.png" alt="shyline logo" />
-      </a>
+  <Lenis :options="lenisOptions">
+    <div class="landing">
+      <!-- Minimal nav -->
+      <header class="landing__header">
+        <a href="#" class="landing__logo">
+          <img src="/imgs/logo-shyline.png" alt="shyline logo" />
+        </a>
 
-      <button
-        class="landing__hamburger"
-        :aria-expanded="isNavOpen"
-        aria-label="Toggle menu"
-        @click="isNavOpen = !isNavOpen"
-      >
-        <span />
-        <span />
-        <span />
-      </button>
-    </header>
+        <button
+          class="landing__hamburger"
+          :aria-expanded="isNavOpen"
+          aria-label="Toggle menu"
+          @click="isNavOpen = !isNavOpen"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      </header>
 
-    <!-- Page sections -->
-    <Hero />
-    <ProductList />
-    <BrandingManifesto />
-    <Seasoning />
-    <Card />
-    <LandingFooter />
-  </div>
+      <!-- Page sections -->
+      <Hero />
+      <ProductList />
+      <BrandingManifesto />
+      <Seasoning />
+      <Card />
+      <LandingFooter />
+    </div>
+  </Lenis>
 </template>
 
 <script setup lang="ts">

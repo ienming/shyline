@@ -45,12 +45,10 @@ onMounted(() => {
       paused: true,
       scrollTrigger: {
         trigger: '.manifesto__bg',
-        markers: true,
         pin: true,
         scrub: 1,
         start: 'top top',
         end: 'bottom top',
-        // pinSpacing: false,
       },
     });
 
@@ -100,8 +98,11 @@ onUnmounted(() => {
           autoplay />
       </div>
       <div class="manifesto__overlay">
+        <h6 class="text-intro">INTRO</h6>
         <p class="text-body">
-          Manifesto...
+          Shyline, a conceptual eyewear brand <br />
+          built on the philosophy of wearing sunglasses <br />
+          as a private architecture for the inner self.
         </p>
       </div>
     </div>
@@ -212,7 +213,6 @@ onUnmounted(() => {
     padding: var(--padding-bottom) 0;
     height: 100vh;
     position: relative;
-    // border: 2px solid blue;
     
     .manifesto__video {
       position: relative;
@@ -254,10 +254,23 @@ onUnmounted(() => {
     width: 100%;
     opacity: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(3px);
-    // border: 2px solid purple;
+
+    .text-intro {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--shl-ref-color-primary);
+    }
+
+    .text-body {
+      text-align: center;
+      font-size: 28px;
+      line-height: 1.1;
+    }
   }
 
   &__shape-container {
