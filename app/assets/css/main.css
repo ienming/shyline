@@ -1,3 +1,5 @@
+@import url('https://p.typekit.net/p.css?s=1&k=qmw2yid&ht=tk&f=51549&a=14822541&app=typekit&e=css');
+
 :root {
     --shl-red-orange: #E44604;
     --shl-orange: #F4601B;
@@ -11,9 +13,20 @@
     --shl-ref-color-white: var(--shl-white);
 }
 
+@font-face {
+    font-family: 'degular-variable';
+    src: url('https://use.typekit.net/af/b6f240/0000000000000000774b907b/31/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3') format('woff2'),url('https://use.typekit.net/af/b6f240/0000000000000000774b907b/31/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3') format('woff'),url('https://use.typekit.net/af/b6f240/0000000000000000774b907b/31/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3') format('opentype');
+    font-display: auto;
+    font-style: normal;
+    font-weight: 200 800;
+    font-stretch:normal;
+}
+
 html, body {
     margin: 0;
     padding: 0;
+    font-family: 'degular-variable',sans-serif;
+    font-variation-settings: 'ital' 0, 'wght' 200, 'opsz' 6;
 }
 
 * {

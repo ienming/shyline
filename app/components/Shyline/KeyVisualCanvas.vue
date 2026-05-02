@@ -255,7 +255,6 @@ const colorStart = ref(colorRecommends[0].start);
 const colorEnd = ref(colorRecommends[0].end);
 const maxResolution = 4;
 const saveResolution = ref(2);
-let font = 'Helvetica';
 
 watch(breakpoints.smaller('sm').value, (newVal, oldValue) => {
 	if (newVal === oldValue) return;
@@ -388,9 +387,6 @@ onMounted(() => {
 		let saveSegments = [];
 
 		p.setup = async () => {
-			if (import.meta.dev) {
-				font = await p.loadFont(`${baseURL}font/fonnts.com-Degular_Variable.otf`);
-			}
 			p.frameRate(frameRate);
 			canvasEl = p.createCanvas(canvasW, canvasH).canvas;
 			p.pixelDensity(1);
@@ -434,7 +430,7 @@ onMounted(() => {
 				const startY = (buffer.height - totalHeight) / 2 + textSizeScaled * 0.7;
 
 				buffer.textAlign(p.CENTER, p.BASELINE);
-				buffer.textFont(font);
+				buffer.textFont('degular-variable');
 				buffer.textSize(textSizeScaled);
 				buffer.fill(0);
 				for (let i = 0; i < txtLines.length; i++) {

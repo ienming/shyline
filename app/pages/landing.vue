@@ -51,7 +51,6 @@ const lenisOptions = {
 html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Degular', sans-serif;
 }
 
 .text-body {
@@ -86,14 +85,6 @@ html, body {
 </style>
 
 <style scoped lang="scss">
-@font-face {
-  font-family: 'Degular';
-  src: url('/shyline/font/fonnts.com-Degular_Variable.otf') format('opentype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
-
 .landing {
   background: #000;
   min-height: 100vh;
