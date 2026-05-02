@@ -11,6 +11,8 @@
     --shl-ref-color-tertiary: var(--shl-orange);
     --shl-ref-color-black: var(--shl-black);
     --shl-ref-color-white: var(--shl-white);
+    --shl-ref-z-fix: 1000;
+    --shl-ref-z-fix-header: 1010;
 }
 
 @font-face {
@@ -54,6 +56,10 @@ li {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+button {
+    border: none;
 }
 
 .w-full {

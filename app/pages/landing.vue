@@ -1,33 +1,36 @@
 <template>
-  <Lenis :options="lenisOptions">
-    <div class="landing">
-      <!-- Minimal nav -->
-      <header class="landing__header">
-        <a href="#" class="landing__logo">
-          <img src="/imgs/logo-shyline.png" alt="shyline logo" />
-        </a>
+  <!-- <Lenis :options="lenisOptions">
+  </Lenis> -->
+  <div class="landing">
+    <!-- Minimal nav -->
+    <header class="landing__header">
+      <a href="#" class="landing__logo">
+        <img src="/imgs/logo-shyline.png" alt="shyline logo" />
+      </a>
 
-        <button
-          class="landing__hamburger"
-          :aria-expanded="isNavOpen"
-          aria-label="Toggle menu"
-          @click="isNavOpen = !isNavOpen"
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-      </header>
+      <button
+        class="landing__hamburger"
+        :aria-expanded="isNavOpen"
+        aria-label="Toggle menu"
+        @click="isNavOpen = !isNavOpen"
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+    </header>
 
-      <!-- Page sections -->
-      <Hero />
-      <ProductList />
-      <BrandingManifesto />
-      <Seasoning />
-      <Card />
-      <LandingFooter />
-    </div>
-  </Lenis>
+    <!-- Page sections -->
+    <Hero />
+    <ProductList />
+    <BrandingManifesto />
+    <Seasoning />
+    <Card />
+    <LandingFooter />
+
+    <!-- Menu -->
+    <Menu />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -37,6 +40,7 @@ import BrandingManifesto from '~/components/Landing/BrandingManifesto.vue'
 import Seasoning from '~/components/Landing/Seasoning.vue'
 import Card from '~/components/Landing/Card.vue'
 import LandingFooter from '~/components/Landing/Footer.vue'
+import Menu from '~/components/Landing/Menu.vue'
 
 const isNavOpen = ref(false);
 const lenisOptions = {
@@ -97,7 +101,7 @@ html, body {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: var(--shl-ref-z-fix-header);
   display: flex;
   align-items: center;
   justify-content: space-between;
