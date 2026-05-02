@@ -1,38 +1,3 @@
-<template>
-  <!-- <Lenis :options="lenisOptions">
-  </Lenis> -->
-  <div class="landing">
-    <!-- Minimal nav -->
-    <header class="landing__header">
-      <a href="#" class="landing__logo">
-        <img src="/imgs/logo-shyline.png" alt="shyline logo" />
-      </a>
-
-      <button
-        class="landing__hamburger"
-        :aria-expanded="isNavOpen"
-        aria-label="Toggle menu"
-        @click="isNavOpen = !isNavOpen"
-      >
-        <span />
-        <span />
-        <span />
-      </button>
-    </header>
-
-    <!-- Page sections -->
-    <Hero />
-    <ProductList />
-    <BrandingManifesto />
-    <Seasoning />
-    <Card />
-    <LandingFooter />
-
-    <!-- Menu -->
-    <Menu />
-  </div>
-</template>
-
 <script setup lang="ts">
 import Hero from '~/components/Landing/Hero.vue'
 import ProductList from '~/components/Landing/ProductList.vue'
@@ -41,8 +6,8 @@ import Seasoning from '~/components/Landing/Seasoning.vue'
 import Card from '~/components/Landing/Card.vue'
 import LandingFooter from '~/components/Landing/Footer.vue'
 import Menu from '~/components/Landing/Menu.vue'
+import Header from '~/components/Landing/Header.vue'
 
-const isNavOpen = ref(false);
 const lenisOptions = {
   smooth: true,
   duration: 0.5,
@@ -50,6 +15,23 @@ const lenisOptions = {
   direction: 'vertical',
 };
 </script>
+
+<template>
+  <!-- <Lenis :options="lenisOptions">
+  </Lenis> -->
+  <div class="landing">
+    <Header />
+    <!-- Page sections -->
+    <Hero />
+    <ProductList />
+    <BrandingManifesto />
+    <Seasoning />
+    <Card />
+    <LandingFooter />
+    <!-- Menu -->
+    <Menu />
+  </div>
+</template>
 
 <style lang="scss">
 html, body {
@@ -94,78 +76,5 @@ html, body {
   min-height: 100vh;
   color: #fff;
   overflow: hidden;
-}
-
-.landing__header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: var(--shl-ref-z-fix-header);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 12px;
-  pointer-events: none;
-
-  @media (min-width: 768px) {
-    padding: 24px 80px;
-  }
-
-  > * {
-    pointer-events: auto;
-  }
-}
-
-.landing__logo {
-  max-width: 108px;
-
-  @media (min-width: 768px) {
-    padding-top: 20px;
-    max-width: 200px;
-  }
-}
-
-.landing__hamburger {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  transition: gap .2s ease;
-
-  &:hover {
-    gap: 12px;
-  }
-
-  span {
-    display: block;
-    width: 80px;
-    height: 1px;
-    background: var(--shl-ref-color-primary);
-  }
-}
-
-@media (max-width: 767px) {
-  .landing__nav--open {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.96);
-    align-items: center;
-    justify-content: center;
-    gap: 32px;
-    z-index: 99;
-
-    .landing__nav-item {
-      font-size: 20px;
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.7);
-      letter-spacing: 0.06em;
-    }
-  }
 }
 </style>

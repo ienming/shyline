@@ -31,6 +31,14 @@ html, body {
     font-variation-settings: 'ital' 0, 'wght' 200, 'opsz' 6;
 }
 
+.material-symbols-outlined {
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+}
+
 * {
     box-sizing: border-box;
 }

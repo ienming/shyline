@@ -14,6 +14,14 @@ export default defineNuxtConfig({
   ssr: false,
   app: {
     baseURL: '/shyline/',
+    head: {
+      link: [
+        { 
+          rel: 'stylesheet', 
+          href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_name=arrow_right_alt,search' 
+        }
+      ]
+    }
   },
   css: [
     'vue-color/style.css',
