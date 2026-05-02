@@ -71,6 +71,13 @@
 						:step="0.1"
 						@update:modelValue="refreshBuffer" />
 					<InputSlider
+						v-model="brightnessThreshold"
+						fieldName="brightnessThreshold"
+						:min="0"
+						:max="255"
+						:step="1"
+						@update:modelValue="refreshBuffer" />
+					<InputSlider
 						v-if="mode === MODE.IMAGE || mode === MODE.VIDEO"
 						v-model="mediaScale"
 						fieldName="mediaScale"
@@ -245,6 +252,7 @@ const bgColor = ref({ r: 0, g: 0, b: 0 });
 const mediaScale = ref(1);
 const textSize = ref(200);
 const inputLineHeight = ref(0.9);
+const brightnessThreshold = ref(200);
 const sampling = ref(10);
 const maxThickness = ref(6);
 const amp = ref(20);
@@ -375,8 +383,6 @@ onClickOutside(uiContainerRef, () => {
 
 onMounted(() => {
 	const { $p5 } = useNuxtApp();
-	const config = useRuntimeConfig();
-	const baseURL = config.app.baseURL;
 
 	p5Instance = new $p5(p => {
 		let pg;
@@ -384,7 +390,6 @@ onMounted(() => {
 
 		const canvasW = parseFloat(getComputedStyle(canvasContainerRef.value).width);
 		const canvasH = window.innerHeight;
-		const brightnessThreshold = 200;
 		let segments = [];
 		let saveSegments = [];
 
@@ -464,7 +469,7 @@ onMounted(() => {
 				for (let x = 0; x < buffer.width; x += 4) {
 					const i = (x + y * buffer.width) * 4;
 					const bright = (buffer.pixels[i] + buffer.pixels[i + 1] + buffer.pixels[i + 2]) / 3;
-					const isInside = bright < brightnessThreshold;
+					const isInside = bright < brightnessThreshold.value;
 
 					if (isInside && runStart === null) {
 						runStart = x;
