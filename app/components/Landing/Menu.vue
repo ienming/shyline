@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { isMenuOpen } = useMenu();
+const { $gsap } = useNuxtApp();
 
 const ads = [
     {
@@ -25,81 +25,101 @@ const ads = [
     },
 ];
 const adIndex = ref(0);
+const menuRef = useTemplateRef('menu');
+let ctx: gsap.Context;
 let adTimer: ReturnType<typeof setInterval>;
+const AD_INTERVAL = 5;
 
 onMounted(() => {
+    if (!menuRef.value) return;
+    let tween: gsap.core.TimelineChild;
+    let tl: gsap.core.Timeline;
+
+    ctx = $gsap.context(() => {
+        tl = $gsap.timeline({
+            paused: true,
+        });
+
+        tween = $gsap.to('.ad__time-indicator', {
+            scaleX: 1,
+            duration: AD_INTERVAL,
+        });
+
+        tl.add(tween);
+        tl.play();
+    }, menuRef.value);
+
     adTimer = setInterval(() => {
         if (adIndex.value < ads.length - 1) {
             adIndex.value += 1;
         } else {
             adIndex.value = 0;
         }
-    }, 5000);
+        tl.restart();
+    }, 1000 * AD_INTERVAL);
 })
 
 onUnmounted(() => {
+    ctx && ctx.revert();
     clearInterval(adTimer);
 })
 </script>
 
 <template>
-    <Transition name="fade">
-        <section
-            v-if="isMenuOpen"
-            class="menu">
-            <div class="menu__container">
-                <div class="menu__search">
-                    <div class="menu__search-input-container">
-                        <input
-                            id="query"
-                            type="text"
-                            placeholder="Keyword or any style you want"
-                            class="menu__search-input" />
-                        <span class="material-symbols-outlined search-icon">search</span>
+    <section
+        ref="menu"
+        class="menu">
+        <div class="menu__container">
+            <div class="menu__nav">
+                <nav>
+                    <a href="" class="menu__nav-item">2026 Spring collection</a>
+                    <a href="" class="menu__nav-item">On Sale</a>
+                    <a href="" class="menu__nav-item">Bestseller</a>
+                </nav>
+                <a
+                    href=""
+                    class="menu__story">
+                    <div class="menu__story-header">
+                        <span class="menu__story-title">Story</span>
+                        <span class="menu__story-subtitle">
+                            about Shyline
+                        </span>
                     </div>
-                    <div class="menu__ad-container">
-                        <div
-                            v-for="(ad, index) of ads"
-                            class="menu__ad"
-                            :class="{'active': index === adIndex}"
-                            :style="`--bg-image: url('${ad.model}')`">
-                            <div class="ad__product-card">
-                                <div class="ad__product-info">
-                                    <div class="ad__product-header">
-                                        <h4 class="ad__product-title">{{ ad.title }}</h4>
-                                        <h5 class="ad__product-price">${{ ad.price }}</h5>
-                                    </div>
-                                    <button class="ad__product-cta">Detail</button>
+                </a>
+            </div>
+            <div class="menu__search">
+                <div class="menu__search-input-container">
+                    <input
+                        id="query"
+                        type="text"
+                        placeholder="Keyword or any style you want"
+                        class="menu__search-input" />
+                    <span class="material-symbols-outlined search-icon">search</span>
+                </div>
+                <div class="menu__ad-container">
+                    <div
+                        v-for="(ad, index) of ads"
+                        class="menu__ad"
+                        :class="{'active': index === adIndex}"
+                        :style="`--bg-image: url('${ad.model}')`">
+                        <div class="ad__product-card">
+                            <div class="ad__product-info">
+                                <div class="ad__product-header">
+                                    <h4 class="ad__product-title">{{ ad.title }}</h4>
+                                    <h5 class="ad__product-price">${{ ad.price }}</h5>
                                 </div>
-                                <div class="ad__product-image-container">
-                                    <img :src="ad.product_img" alt="" />
-                                </div>
+                                <button class="ad__product-cta">Detail</button>
+                            </div>
+                            <div class="ad__product-image-container">
+                                <img :src="ad.product_img" alt="" />
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="menu__nav">
-                    <nav>
-                        <a href="" class="menu__nav-item">2026 Spring collection</a>
-                        <a href="" class="menu__nav-item">On Sale</a>
-                        <a href="" class="menu__nav-item">Bestseller</a>
-                    </nav>
-                    <a
-                        href=""
-                        class="menu__story">
-                        <div class="menu__story-header">
-                            <span class="menu__story-title">Story</span>
-                            <span class="menu__story-subtitle">
-                                about Shyline
-                                <span class="material-symbols-outlined">arrow_right_alt</span>
-                            </span>
-                        </div>
-                        <div class="menu__story-body"></div>
-                    </a>
+                    <div class="ad__time-indicator"></div>
                 </div>
             </div>
-        </section>
-    </Transition>
+        </div>
+    </section>
 </template>
 
 <style scoped lang="scss">
@@ -134,7 +154,7 @@ onUnmounted(() => {
     }
 
     .menu__search {
-        flex: 3;
+        flex: 5;
         display: flex;
         flex-direction: column;
         gap: 32px;
@@ -168,51 +188,46 @@ onUnmounted(() => {
         position: relative;
         width: 100%;
         height: 70vh;
+        border-radius: 16px;
+        overflow: hidden;
     }
 
     .menu__ad {
         position: absolute;
         width: 100%;
         height: 100%;
-        border-radius: 16px;
         background-image: var(--bg-image);
         background-position: center center;
-        background-size: cover;
-        overflow: hidden;
+        background-size: 120%;
         opacity: 0;
         transition: .6s opacity ease-in-out;
-
-        &::after {
-            content: '';
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 4px;
-            background-color: var(--shl-ref-color-primary);
-            transition: width 5s linear;
-        }
 
         &.active {
             opacity: 1;
             z-index: 1;
 
-            &::after {
-                width: 100%;
-            }
-
             .ad__product-card {
                 opacity: 1;
+                transform: translateX(-50%) translateY(0);
             }
         }
+    }
+
+    .ad__time-indicator {
+        position: relative;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(to right, var(--shl-ref-color-primary) 0%, var(--shl-ref-color-secondary) 100%);
+        z-index: var(--shl-ref-z-fix);
+        transform: scaleX(0);
+        transform-origin: left center;
     }
 
     .ad__product-card {
         position: absolute;
         left: 50%;
         bottom: 0px;
-        transform: translateX(-50%);
+        transform: translateX(-50%) translateY(30px);
         border-radius: 20px 20px 0 0;
         background-color: color-mix(in srgb, var(--shl-ref-color-black) 50%, transparent 50%);
         border: 1px solid color-mix(in srgb, white 20%, transparent 80%);
@@ -289,7 +304,7 @@ onUnmounted(() => {
     }
 
     .menu__nav {
-        flex: 2;
+        flex: 7;
         display: flex;
         flex-direction: column;
         gap: 36px;
@@ -333,7 +348,7 @@ onUnmounted(() => {
     .menu__story-header {
         display: flex;
         align-items: end;
-        justify-content: space-between;
+        gap: 16px;
     }
 
     .menu__story-title {
@@ -341,6 +356,9 @@ onUnmounted(() => {
         letter-spacing: -5%;
         line-height: 40px;
         transition: opacity .3s;
+        background-image: linear-gradient(to right, var(--shl-ref-color-primary) 0%, var(--shl-ref-color-secondary) 100%);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
     .menu__story-subtitle {
@@ -348,15 +366,6 @@ onUnmounted(() => {
         display: flex;
         gap: 4px;
         align-items: center;
-    }
-
-    .menu__story-body {
-        border-radius: 12px;
-        height: 120px;
-        background-image: url('/imgs/menu-pattern.png');
-        background-size: 100%;
-        background-origin: center center;
-        transition: background-size .5s ease-in-out, opacity .3s;;
     }
 }
 </style>

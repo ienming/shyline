@@ -8,6 +8,7 @@ import LandingFooter from '~/components/Landing/Footer.vue'
 import Menu from '~/components/Landing/Menu.vue'
 import Header from '~/components/Landing/Header.vue'
 
+const { isMenuOpen } = useMenu();
 const lenisOptions = {
   smooth: true,
   duration: 0.5,
@@ -29,7 +30,9 @@ const lenisOptions = {
     <Card />
     <LandingFooter />
     <!-- Menu -->
-    <Menu />
+    <Transition name="fade">
+      <Menu v-if="isMenuOpen" />
+    </Transition>
   </div>
 </template>
 

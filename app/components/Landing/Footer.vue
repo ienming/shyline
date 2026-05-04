@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import FlipLink from './FlipLink.vue';
+import SunglassIcon from './SunglassIcon.vue';
 
 </script>
 
@@ -13,7 +14,7 @@ import FlipLink from './FlipLink.vue';
         <FlipLink>
           <span class="footer__button-slot">
             Claim Your Distance
-            <img src="/imgs/footer-cta-icon.png" alt="" class="footer__arrow">
+            <SunglassIcon />
           </span>
         </FlipLink>
       </div>
@@ -50,7 +51,8 @@ import FlipLink from './FlipLink.vue';
   background-size: contain;
 
   @media (min-width: 768px) {
-    padding: 120px 80px 56px;
+    padding: 120px 80px 80px 80px;
+    min-height: 100vh;
   }
 
   &__cta {

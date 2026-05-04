@@ -261,7 +261,7 @@ onUnmounted(() => {
 
     .text-intro {
       font-size: 18px;
-      font-weight: 600;
+      font-variation-settings: 'ital' 0, 'wght' 360, 'opsz' 6;
       margin-bottom: 8px;
       color: var(--shl-ref-color-primary);
     }
