@@ -18,22 +18,22 @@ const lenisOptions = {
 </script>
 
 <template>
-  <!-- <Lenis :options="lenisOptions">
-  </Lenis> -->
-  <div class="landing">
-    <Header />
-    <!-- Page sections -->
-    <Hero />
-    <ProductList />
-    <BrandingManifesto />
-    <Seasoning />
-    <Card />
-    <LandingFooter />
-    <!-- Menu -->
-    <Transition name="fade">
-      <Menu v-if="isMenuOpen" />
-    </Transition>
-  </div>
+  <Lenis :options="lenisOptions">
+    <div class="landing">
+      <Header />
+      <!-- Page sections -->
+      <Hero />
+      <ProductList />
+      <BrandingManifesto />
+      <Seasoning />
+      <Card />
+      <LandingFooter />
+      <!-- Menu -->
+      <Transition name="fade">
+        <Menu v-if="isMenuOpen" />
+      </Transition>
+    </div>
+  </Lenis>
 </template>
 
 <style lang="scss">

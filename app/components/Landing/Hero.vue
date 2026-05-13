@@ -1,7 +1,19 @@
+<script setup lang="ts">
+import { useBreakpoints, breakpointsAntDesign } from '@vueuse/core';
+const breakpoints = useBreakpoints(breakpointsAntDesign);
+</script>
+
 <template>
   <section class="hero">
     <div class="hero__media">
-      <div class="hero__image-placeholder" />
+      <div class="hero__image-placeholder">
+        <video
+          v-if="breakpoints.isGreater('md')"
+          src="/video/hero.webm"
+          autoplay="true"
+          muted="true"
+          loop="true" />
+      </div>
       <div class="hero__gradient-overlay" />
       <img
         src="/imgs/hero-logo-pattern.png"
@@ -19,9 +31,6 @@
     </div>
   </section>
 </template>
-
-<script setup lang="ts">
-</script>
 
 <style scoped lang="scss">
 .hero {
@@ -44,7 +53,11 @@
     background-size: cover;
 
     @media (min-width: 768px) {
-      background-image: url('/imgs/hero-desktop.jpg');
+      > video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
   }
 
