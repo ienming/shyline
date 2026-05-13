@@ -16,26 +16,14 @@
 			</div>
 			<div v-show="isUIShow">
 				<div class="controller-container">
-					<div class="mode-container">
-						<InputRadio
-							v-model="mode"
-							:fieldName="MODE.TEXT"
-							fieldLabel="Text"
-							:value="MODE.TEXT"
-							@change="clearVideo(); refreshBuffer();" />
-						<InputRadio
-							v-model="mode"
-							:fieldName="MODE.IMAGE"
-							fieldLabel="Image"
-							:value="MODE.IMAGE"
-							@change="clearVideo(); refreshBuffer();" />
-						<InputRadio
-							v-model="mode"
-							:fieldName="MODE.VIDEO"
-							fieldLabel="Video"
-							:value="MODE.VIDEO"
-							@change="clearVideo(); refreshBuffer();" />
-					</div>
+					<GroupTab
+						v-model="mode"
+						:options="[
+							{ value: MODE.TEXT, label: 'Text' },
+							{ value: MODE.IMAGE, label: 'Image' },
+							{ value: MODE.VIDEO, label: 'Video' },
+						]"
+						@change="clearVideo(); refreshBuffer();" />
 					<div class="input-container">
 						<InputTextarea
 							v-if="mode === MODE.TEXT"
@@ -128,29 +116,31 @@
 						v-model="showWave"
 						fieldName="showWave" />
 					<ClientOnly>
-						<div class="bg-color-container">
-							bgColor
-							<ColorPicker v-model:color="bgColor" />
-						</div>
-					</ClientOnly>
-					<ClientOnly>
-						<div class="recommend-colors">
-							<div class="combinations">
-								<div
-									v-for="c of colorRecommends"
-									:key="c.id"
-									class="recommend-color-combination"
-									:data-start="rgbToString(c.start)"
-									:data-end="rgbToString(c.end)"
-									@click="updateColorCombination(c)" />
+						<div class="color-picker-container">
+							<div class="bg-color-container">
+								bgColor
+								<ColorPicker
+									v-model:color="bgColor"
+									class="bg-color-picker" />
 							</div>
-							<span
-								class="random-btn"
-								@click="randomColor">Random</span>
-						</div>
-						<div class="color-container">
-							<ColorPicker v-model:color="colorStart" />
-							<ColorPicker v-model:color="colorEnd" />
+							<div class="recommend-colors">
+								<div class="combinations">
+									<div
+										v-for="c of colorRecommends"
+										:key="c.id"
+										class="recommend-color-combination"
+										:data-start="rgbToString(c.start)"
+										:data-end="rgbToString(c.end)"
+										@click="updateColorCombination(c)" />
+								</div>
+								<span
+									class="random-btn"
+									@click="randomColor">Random</span>
+							</div>
+							<div class="color-container">
+								<ColorPicker v-model:color="colorStart" />
+								<ColorPicker v-model:color="colorEnd" />
+							</div>
 						</div>
 					</ClientOnly>
 				</div>
@@ -184,7 +174,7 @@
 import ColorPicker from './ColorPicker.vue';
 import Button from './Button.vue';
 import InputCheckbox from './InputCheckbox.vue';
-import InputRadio from './InputRadio.vue';
+import GroupTab from './GroupTab.vue';
 import InputSlider from './InputSlider.vue';
 import InputTextarea from './InputTextarea.vue';
 import InputFile from './InputFile.vue';
@@ -242,6 +232,11 @@ const colorRecommends = [
 		start: { r: 79, g: 190, b: 255 },
 		end: { r: 8, g: 39, b: 105 },
 	},
+	{
+		id: 5,
+		start: { r: 255, g: 166, b: 3 },
+		end: { r: 234, g: 50, b: 0 },
+	},
 ];
 
 // UI
@@ -249,7 +244,7 @@ const isUIShow = ref(true);
 const isRecording = ref(false);
 const bgColor = ref({ r: 0, g: 0, b: 0 });
 const mediaScale = ref(1);
-const textSize = ref(200);
+const textSize = ref(220);
 const inputLineHeight = ref(0.9);
 const brightnessThreshold = ref(200);
 const sampling = ref(10);
@@ -264,11 +259,11 @@ const colorEnd = ref(colorRecommends[0].end);
 const maxResolution = 4;
 const saveResolution = ref(2);
 
-watch(breakpoints.smaller('sm').value, (newVal, oldValue) => {
-	if (newVal === oldValue) return;
+watch(breakpoints.smaller('sm'), (newVal, oldVal) => {
+	if (newVal === oldVal) return;
 	
 	isUIShow.value = !newVal;
-	textSize.value = newVal ? 90 : 200;
+	textSize.value = newVal ? 90 : 220;
 	sampling.value = newVal ? 8 : 10;
 }, {
 	immediate: true,
@@ -397,6 +392,8 @@ onMounted(() => {
 			p.pixelDensity(1);
 			pg = p.createGraphics(canvasW, canvasH);
 			pg.pixelDensity(1);
+
+			await document.fonts.load('1em degular-variable');
 			p.refreshSourceBuffer();
 		}
 
@@ -663,11 +660,6 @@ onMounted(() => {
 			}
 		}
 
-		.mode-container {
-			display: flex;
-			gap: 12px;
-		}
-
 		.input-container {
 			margin-top: 8px;
 		}
@@ -676,6 +668,20 @@ onMounted(() => {
 			display: flex;
 			flex-direction: column;
 			gap: 8px;
+		}
+
+		.color-picker-container {
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			margin-top: 8px;
+		}
+
+		.bg-color-picker {
+			margin-top: 8px;
+			border: 1px solid #333;
+			border-radius: 6px;
+			overflow: hidden;
 		}
 
 		.recommend-colors {
@@ -691,11 +697,11 @@ onMounted(() => {
 			.random-btn {
 				cursor: pointer;
 				font-size: 12px;
-				color: #666;
+				color: #999;
 				transition: color 0.2s;
 
 				&:hover {
-					color: #999;
+					color: #bbb;
 				}
 			}
 
@@ -718,8 +724,8 @@ onMounted(() => {
 		.color-container {
 			display: flex;
 			flex-direction: column;
-			gap: 8px;
-			margin: 8px 0;
+			gap: 12px;
+			margin-bottom: 20px;
 		}
 
 		.recording-container {

@@ -15,6 +15,7 @@ export default defineNuxtConfig({
   app: {
     baseURL: '/shyline/',
     head: {
+      title: 'Shyline',
       link: [
         { 
           rel: 'stylesheet', 
