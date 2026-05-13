@@ -28,14 +28,15 @@
   flex-direction: column;
   border-radius: 30px;
   overflow: hidden;
-  background-image: url('/imgs/card-model-mobile.png');
+  background-image: url('/imgs/card-model-mobile.jpg');
   background-size: cover;
   
   @media (min-width: 768px) {
     max-width: min(90vw, 1360px);
     overflow: visible;
-    background-image: url('/imgs/card-model-desktop.png');
-    background-position-x: 110%;
+    background-image: url('/imgs/card-model-desktop.jpg');
+    background-position-y: bottom;
+    background-position-x: 150px;
   }
 
   &__content {

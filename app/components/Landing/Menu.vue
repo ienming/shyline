@@ -4,21 +4,21 @@ const { $gsap } = useNuxtApp();
 const ads = [
     {
         id: 'amphibiams',
-        model: '/imgs/menu-model-amphibians.png',
+        model: '/imgs/menu-model-amphibians.jpg',
         title: 'amphibiams',
         price: '5,900',
         product_img: '/imgs/glass-amphibians.png',
     },
     {
         id: 'hawksbill',
-        model: '/imgs/menu-model-hawksbill.png',
+        model: '/imgs/menu-model-hawksbill.jpg',
         title: 'hawksbill',
         price: '3,880',
         product_img: '/imgs/glass-hawksbill.png',
     },
     {
         id: 'golden-leaf',
-        model: '/imgs/menu-model-golden-leaf.png',
+        model: '/imgs/menu-model-golden-leaf.jpg',
         title: 'golden leaf',
         price: '5,980',
         product_img: '/imgs/glass-golden-leaf.png',
@@ -28,7 +28,7 @@ const adIndex = ref(0);
 const menuRef = useTemplateRef('menu');
 let ctx: gsap.Context;
 let adTimer: ReturnType<typeof setInterval>;
-const AD_INTERVAL = 5;
+const AD_INTERVAL = 8;
 
 onMounted(() => {
     if (!menuRef.value) return;
@@ -70,23 +70,6 @@ onUnmounted(() => {
         ref="menu"
         class="menu">
         <div class="menu__container">
-            <div class="menu__nav">
-                <nav>
-                    <a href="" class="menu__nav-item">2026 Spring collection</a>
-                    <a href="" class="menu__nav-item">On Sale</a>
-                    <a href="" class="menu__nav-item">Bestseller</a>
-                </nav>
-                <a
-                    href=""
-                    class="menu__story">
-                    <div class="menu__story-header">
-                        <span class="menu__story-title">Story</span>
-                        <span class="menu__story-subtitle">
-                            about Shyline
-                        </span>
-                    </div>
-                </a>
-            </div>
             <div class="menu__search">
                 <div class="menu__search-input-container">
                     <input
@@ -117,6 +100,20 @@ onUnmounted(() => {
                     </div>
                     <div class="ad__time-indicator"></div>
                 </div>
+            </div>
+            <div class="menu__nav">
+                <nav>
+                    <a href="" class="menu__nav-item">2026 Spring collection</a>
+                    <a href="" class="menu__nav-item">On Sale</a>
+                    <a href="" class="menu__nav-item">Bestseller</a>
+                </nav>
+                <a
+                    href=""
+                    class="menu__story">
+                    <div class="menu__story-header">
+                        <span class="menu__story-title">Story</span>
+                    </div>
+                </a>
             </div>
         </div>
     </section>
@@ -154,7 +151,7 @@ onUnmounted(() => {
     }
 
     .menu__search {
-        flex: 5;
+        flex: 6;
         display: flex;
         flex-direction: column;
         gap: 32px;
@@ -359,13 +356,6 @@ onUnmounted(() => {
         background-image: linear-gradient(to right, var(--shl-ref-color-primary) 0%, var(--shl-ref-color-secondary) 100%);
         background-clip: text;
         -webkit-text-fill-color: transparent;
-    }
-
-    .menu__story-subtitle {
-        opacity: 0.75;
-        display: flex;
-        gap: 4px;
-        align-items: center;
     }
 }
 </style>
